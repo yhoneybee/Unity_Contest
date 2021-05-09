@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class DragManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public bool isClick;
+    public bool isTxt;
+    public int DragObjValue;
+    public LineRenderer line;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        line = GetComponent<LineRenderer>();
+        line.startWidth = 10;
+        line.endWidth = 10;
     }
 }
