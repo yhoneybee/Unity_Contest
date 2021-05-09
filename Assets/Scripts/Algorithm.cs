@@ -12,12 +12,10 @@ public class Algorithm : MonoBehaviour
     {
         CellReset();
     }
-
     void Update()
     {
 
     }
-
     /// <summary>
     /// 숫자 랜덤으로 만드는 함수
     /// </summary>
@@ -54,13 +52,12 @@ public class Algorithm : MonoBehaviour
                     continue;
 
                 start += axis;
-                
+
                 break;
             }
             Debug.Log($"left block : {Mathf.Abs(block - i)}\n i : {i}");
         }
     }
-
     /// <summary>
     /// 실제로 돌아가는 스테이지 시작전에 불리는 함수
     /// </summary>
@@ -73,7 +70,6 @@ public class Algorithm : MonoBehaviour
             RandomPosAdd(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), Random.Range(2, range_max), i + 1);
         }
     }
-
     public void PrintCell()
     {
         string debug = "";
@@ -87,7 +83,6 @@ public class Algorithm : MonoBehaviour
         }
         Debug.Log(debug);
     }
-
     public void CellReset()
     {
         cell.Clear();
