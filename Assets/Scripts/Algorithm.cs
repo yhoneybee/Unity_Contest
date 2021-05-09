@@ -5,9 +5,16 @@ using UnityEngine.UI;
 
 public class Algorithm : MonoBehaviour
 {
+    public static Algorithm Instance { get; set; }
+
     public Vector2Int cell_size;
 
-    List<List<int>> cell = new List<List<int>>();
+    public List<List<int>> cell = new List<List<int>>();
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         CellReset();

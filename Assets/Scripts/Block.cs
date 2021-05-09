@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Block : MonoBehaviour
 {
-    int BlockValue = 5;
+    public int BlockValue;
     Image img;
     RectTransform rt;
     Text BlockValueTxt;
