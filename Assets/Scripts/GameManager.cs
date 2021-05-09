@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -18,10 +19,10 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        Blocks.Sort((obj1,obj2) => int.Parse(obj1.name).CompareTo(int.Parse(obj2.name)));
-        Algorithm.Instance.CellReset();
-        Algorithm.Instance.Logic(1);
+        Algorithm.Instance.Logic(25);
         Algorithm.Instance.PrintCell();
+
+        Blocks.Sort((o1, o2) => int.Parse(o1.name).CompareTo(int.Parse(o2.name)));
 
         for (int y = 0; y < Algorithm.Instance.cell_size.y; y++)
         {

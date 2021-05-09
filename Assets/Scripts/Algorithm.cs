@@ -71,11 +71,10 @@ public class Algorithm : MonoBehaviour
     /// <param name="drag">µå·¡±× È½¼ö</param>
     public void Logic(int drag)
     {
-        int range_max = cell_size.x * cell_size.y + 1;
+        CellReset();
+
         for (int i = 0; i < drag; i++)
-        {
-            RandomPosAdd(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), Random.Range(2, range_max), i + 1);
-        }
+            RandomPosAdd(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), Random.Range(2, cell_size.x * cell_size.y), i + 1);
     }
     public void PrintCell()
     {
@@ -92,7 +91,11 @@ public class Algorithm : MonoBehaviour
     }
     public void CellReset()
     {
+        foreach (var c in cell)
+            c.Clear();
+
         cell.Clear();
+
         for (int i = 0; i < cell_size.x; i++)
             cell.Add(new List<int>());
 
