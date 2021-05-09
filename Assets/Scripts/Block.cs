@@ -1,79 +1,107 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Block : MonoBehaviour
 {
-    int BlockValue;
-    public bool Minus;
-    Text BlockTxt;
+    int BlockValue = 5;
     Image img;
+    RectTransform rt;
+    Text BlockValueTxt;
+
+    private void Awake()
+    {
+        img = GetComponent<Image>();
+        rt = GetComponent<RectTransform>();
+        BlockValueTxt = GetComponentInChildren<Text>();
+    }
 
     void Start()
     {
-        img = GetComponent<Image>();
-        BlockTxt = GetComponentInChildren<Text>();
-        BlockValue = Random.Range(0, 6);
-        BlockTxt.text = BlockValue.ToString();
+        GameManager.instance.Blocks.Add(gameObject);
+        BlockValueTxt.text = BlockValue.ToString();
     }
 
     void Update()
     {
-        if (FindObjectOfType<DragManager>().isTxt == true)
+        if(GameManager.instance.isClick==false)
         {
-            if (Minus == true && FindObjectOfType<DragManager>().DragObjValue > 1)
-            {
-                if (BlockValue != 0)
-                {
-                    BlockValue--;
-                }
-                Minus = false;
-            }
             img.color = new Color(1, 1, 1);
-            BlockTxt.text = BlockValue.ToString();
         }
-    }
-    public void Drag()
-    {
-        if (GameObject.Find("Canvas").GetComponent<DragManager>().isClick == true)
-        {
-            if (Minus == false)
-            {
-                FindObjectOfType<DragManager>().DragObjValue++;
-                Minus = true;
-                if (BlockValue != 0)
-                    img.color = new Color(0.9f, 0.9f, 0.9f);
-                Debug.Log("드래그 블럭 추가");
-            }
-        }
-    }
-    public void PointerDown()
-    {
-        FindObjectOfType<DragManager>().isClick = true;
-        FindObjectOfType<DragManager>().isTxt = false;
-        Debug.Log("드래그 시작");
-        FindObjectOfType<DragManager>().DragObjValue = 0;
-
-        if (Minus == false)
-        {
-            FindObjectOfType<DragManager>().DragObjValue++;
-            Minus = true;
-            if (BlockValue != 0)
-                img.color = new Color(0.9f, 0.9f, 0.9f);
-            Debug.Log("드래그 블럭 추가");
-        }
+        BlockValueTxt.text = BlockValue.ToString();
     }
 
     public void PointerUp()
     {
-        FindObjectOfType<DragManager>().isClick = false;
-        FindObjectOfType<DragManager>().isTxt = true;
+        GameManager.instance.isClick = false;
 
-        if (FindObjectOfType<DragManager>().DragObjValue == 1)
+        if (BlockValue != 0)
         {
-            FindObjectOfType<DragManager>().DragObjValue = 0;
+            if (GameManager.instance.BlockPosition.Last() != gameObject)
+            {
+                foreach (var GameObj in GameManager.instance.BlockPosition)
+                {
+                    if (GameObj.GetComponent<Block>().BlockValue != 0)
+                    {
+                        GameObj.GetComponent<Block>().BlockValue--;
+                    }
+                }
+            }
         }
-        Debug.Log("드래그 취소");
+
+        GameManager.instance.BlockPosition.Clear();
+    }
+
+    public void PointerDown()
+    {
+        if (BlockValue != 0)
+        {
+            GameManager.instance.isClick = true;
+            img.color = new Color(0.9f, 0.9f, 0.9f);
+
+            GameManager.instance.BlockPosition.Add(gameObject);
+        }
+    }
+
+    public void Drag()
+    {
+        if (GameManager.instance.isClick == true)
+        {
+            if (BlockValue == 0)
+                return;
+            Vector2 LastAPosition = GameManager.instance.BlockPosition.Last().GetComponent<RectTransform>().anchoredPosition;
+
+            if (Mathf.Abs(LastAPosition.x - gameObject.GetComponent<RectTransform>().anchoredPosition.x) > 80
+                || Mathf.Abs(LastAPosition.y - gameObject.GetComponent<RectTransform>().anchoredPosition.y) > 80)
+            {
+                return;
+            }
+
+            if (LastAPosition.x != gameObject.GetComponent<RectTransform>().anchoredPosition.x &&
+                LastAPosition.y != gameObject.GetComponent<RectTransform>().anchoredPosition.y)
+            {
+                return;
+            }
+
+            foreach (var GameObj in GameManager.instance.BlockPosition)
+            {
+                if (GameObj == gameObject)
+                {
+                    GameManager.instance.SameBlock = true;
+                    break;
+                }
+                else
+                {
+                    GameManager.instance.SameBlock = false;
+                }
+            }
+            if (GameManager.instance.SameBlock == false)
+            {
+                GameManager.instance.BlockPosition.Add(gameObject);
+                img.color = new Color(0.9f, 0.9f, 0.9f);
+            }
+        }
     }
 }
