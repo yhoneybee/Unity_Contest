@@ -1,15 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Block : MonoBehaviour
 {
-    int BlockValue = 5;//Random.Range(0, 6);
+    int BlockValue;
     public bool Minus;
     Text BlockTxt;
+    Image img;
 
     void Start()
     {
+        img = GetComponent<Image>();
         BlockTxt = GetComponentInChildren<Text>();
+        BlockValue = Random.Range(0, 6);
         BlockTxt.text = BlockValue.ToString();
     }
 
@@ -25,6 +30,7 @@ public class Block : MonoBehaviour
                 }
                 Minus = false;
             }
+            img.color = new Color(1, 1, 1);
             BlockTxt.text = BlockValue.ToString();
         }
     }
@@ -36,6 +42,8 @@ public class Block : MonoBehaviour
             {
                 FindObjectOfType<DragManager>().DragObjValue++;
                 Minus = true;
+                if (BlockValue != 0)
+                    img.color = new Color(0.9f, 0.9f, 0.9f);
                 Debug.Log("드래그 블럭 추가");
             }
         }
@@ -51,9 +59,10 @@ public class Block : MonoBehaviour
         {
             FindObjectOfType<DragManager>().DragObjValue++;
             Minus = true;
+            if (BlockValue != 0)
+                img.color = new Color(0.9f, 0.9f, 0.9f);
             Debug.Log("드래그 블럭 추가");
         }
-        //FindObjectOfType<DragManager>().line.SetPosition(0, gameObject.transform.position);
     }
 
     public void PointerUp()
@@ -66,6 +75,5 @@ public class Block : MonoBehaviour
             FindObjectOfType<DragManager>().DragObjValue = 0;
         }
         Debug.Log("드래그 취소");
-        //FindObjectOfType<DragManager>().line.SetPosition(1, gameObject.transform.position);
     }
 }
