@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -32,6 +31,8 @@ public class GameManager : MonoBehaviour
                 Blocks[Algorithm.Instance.cell_size.x * y + x].GetComponent<Block>().BlockValue = Algorithm.Instance.cell[x][y];
             }
         }
+
+        Algorithm.Instance.CellReset();
     }
 
     private void Update()

@@ -32,13 +32,19 @@ public class Algorithm : MonoBehaviour
     void RandomPosAdd(Vector2Int start, int block, int loop_count)
     {
         Vector2Int axis = new Vector2Int();
-        int axis_case;
+        int axis_case, left;
         for (int i = 0; i < block; i++)
         {
+            left = 0;
             cell[start.x][start.y]++;
 
             while (true)
             {
+                if (left >= 30)
+                {
+                    break;
+                }
+
                 axis_case = Random.Range(0, 4);
 
                 switch (axis_case)
@@ -53,11 +59,18 @@ public class Algorithm : MonoBehaviour
                     cell_size.y <= start.y + axis.y ||
                     0 > start.x + axis.x ||
                     0 > start.y + axis.y)
+                {
+                    left++;
                     continue;
+                }
 
                 if (cell[start.x + axis.x][start.y + axis.y] >= loop_count)
+                {
+                    left++;
                     continue;
+                }
 
+                left = 0;
                 start += axis;
 
                 break;

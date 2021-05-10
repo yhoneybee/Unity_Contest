@@ -26,11 +26,22 @@ public class Block : MonoBehaviour
 
     void Update()
     {
-        if(GameManager.instance.isClick==false)
+        if (GameManager.instance.isClick == false)
         {
             img.color = new Color(1, 1, 1);
         }
         BlockValueTxt.text = BlockValue.ToString();
+    }
+
+    public void PointerExit()
+    {
+        if (GameManager.instance.isClick == true)
+        {
+            if (GameManager.instance.BlockPosition.Last() == gameObject)
+            {
+                img.color = new Color(0.9f, 0.9f, 0.9f);
+            }
+        }
     }
 
     public void PointerUp()
@@ -101,6 +112,10 @@ public class Block : MonoBehaviour
             {
                 GameManager.instance.BlockPosition.Add(gameObject);
                 img.color = new Color(0.9f, 0.9f, 0.9f);
+            }
+            if (GameManager.instance.BlockPosition.Last() == gameObject)
+            {
+                img.color = new Color(0.8f, 0.8f, 0.1f);
             }
         }
     }
