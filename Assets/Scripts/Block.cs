@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,18 +28,17 @@ public class Block : MonoBehaviour
         {
             img.color = new Color(1, 1, 1);
         }
-        BlockValueTxt.text = BlockValue.ToString();
-    }
-
-    public void PointerExit()
-    {
-        if (GameManager.instance.isClick == true)
+        else
         {
-            if (GameManager.instance.BlockPosition.Last() == gameObject)
+            if (img.color == new Color(0.8f, 0.8f, 0.1f))
             {
-                img.color = new Color(0.9f, 0.9f, 0.9f);
+                if (GameManager.instance.BlockPosition.Last() != gameObject)
+                {
+                    img.color = new Color(0.9f, 0.9f, 0.9f);
+                }
             }
         }
+        BlockValueTxt.text = BlockValue.ToString();
     }
 
     public void PointerUp()
@@ -52,6 +49,7 @@ public class Block : MonoBehaviour
         {
             if (GameManager.instance.BlockPosition.Last() != gameObject)
             {
+                GameManager.instance.DragCount++;
                 foreach (var GameObj in GameManager.instance.BlockPosition)
                 {
                     if (GameObj.GetComponent<Block>().BlockValue != 0)
@@ -67,12 +65,14 @@ public class Block : MonoBehaviour
 
     public void PointerDown()
     {
+        GameManager.instance.UndoList.Clear();
         if (BlockValue != 0)
         {
             GameManager.instance.isClick = true;
-            img.color = new Color(0.9f, 0.9f, 0.9f);
+            img.color = new Color(0.8f, 0.8f, 0.1f);
 
             GameManager.instance.BlockPosition.Add(gameObject);
+            GameManager.instance.UndoList.Add(gameObject);
         }
     }
 
@@ -111,6 +111,7 @@ public class Block : MonoBehaviour
             if (GameManager.instance.SameBlock == false)
             {
                 GameManager.instance.BlockPosition.Add(gameObject);
+                GameManager.instance.UndoList.Add(gameObject);
                 img.color = new Color(0.9f, 0.9f, 0.9f);
             }
             if (GameManager.instance.BlockPosition.Last() == gameObject)
@@ -119,4 +120,15 @@ public class Block : MonoBehaviour
             }
         }
     }
+    //public void Undo()
+    //{
+    //    if (GameManager.instance.BlockPosition.Count != 1)
+    //    {
+    //        foreach (var GameObj in GameManager.instance.UndoList)
+    //        {
+    //            GameObj.GetComponent<Block>().BlockValue++;
+    //        }
+    //            GameManager.instance.UndoList.Clear();
+    //    }
+    //}
 }

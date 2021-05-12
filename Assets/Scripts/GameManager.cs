@@ -8,9 +8,11 @@ public class GameManager : MonoBehaviour
 
     public List<GameObject> Blocks = new List<GameObject>();
     public List<GameObject> BlockPosition = new List<GameObject>();
+    public List<GameObject> UndoList = new List<GameObject>();
 
     public bool isClick;
     public bool SameBlock;
+    public int DragCount;
 
     void Awake()
     {
@@ -18,11 +20,19 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        Algorithm.Instance.Logic(25);
+        Algorithm.Instance.Logic(10);
         Algorithm.Instance.PrintCell();
 
         Blocks.Sort((o1, o2) => int.Parse(o1.name).CompareTo(int.Parse(o2.name)));
 
+        SetBlockValue();
+
+        Algorithm.Instance.CellReset();
+    }
+
+    public void SetBlockValue()
+    {
+        DragCount = 0;
         for (int y = 0; y < Algorithm.Instance.cell_size.y; y++)
         {
             for (int x = 0; x < Algorithm.Instance.cell_size.x; x++)
@@ -31,8 +41,6 @@ public class GameManager : MonoBehaviour
                 Blocks[Algorithm.Instance.cell_size.x * y + x].GetComponent<Block>().BlockValue = Algorithm.Instance.cell[x][y];
             }
         }
-
-        Algorithm.Instance.CellReset();
     }
 
     private void Update()
