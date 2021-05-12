@@ -3,15 +3,17 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public delegate void CALLBACK();
+    public CALLBACK drag_end_callback;
 
-    public List<GameObject> Blocks = new List<GameObject>();
-    public List<GameObject> BlockPosition = new List<GameObject>();
+    public static GameManager instance;
+    public List<GameObject> Blocks { get; set; } = new List<GameObject>();
+    public List<GameObject> BlockPosition { get; set; } = new List<GameObject>();
     public List<GameObject> UndoList = new List<GameObject>();
 
     public bool isClick;
     public bool SameBlock;
-    public int DragCount;
+    public int DragCount { get; set; }
 
     void Awake()
     {

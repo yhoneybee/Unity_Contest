@@ -20,7 +20,29 @@ public class Algorithm : MonoBehaviour
     void Start()
     {
         CellReset();
+        GameManager.instance.drag_end_callback += OnDragEnd;
     }
+
+    // 드레그 끝나고 불리는 함수
+    private void OnDragEnd()
+    {
+        if (GameManager.instance.BlockPosition.Count > 1)
+        {
+            Debug.Log("DragEnd!");
+            //이제 여기서 블럭을 linked list마냥 돌리는거 하면 됨
+        }
+    }
+
+    /// <summary>
+    /// LT와 RB좌표를 넘기면 그 구역 테두리에 있는 블럭을 돌려준다.
+    /// </summary>
+    /// <param name="LT">LT좌표</param>
+    /// <param name="RB">RB좌표</param>
+    void Circulation(Vector2Int LT, Vector2Int RB)
+    {
+
+    }
+
     void Update()
     {
 
@@ -80,7 +102,7 @@ public class Algorithm : MonoBehaviour
                 break;
             }
 
-/*            Debug.Log($"left block : {Mathf.Abs(block - i)}\n i : {i}");*/
+            /*            Debug.Log($"left block : {Mathf.Abs(block - i)}\n i : {i}");*/
         }
         string debug = "";
         foreach (var item in com)

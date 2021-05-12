@@ -48,28 +48,33 @@ public class Block : MonoBehaviour
 
     public void PointerUp()
     {
-        GameManager.instance.isClick = false;
-
-        if (BlockValue != 0)
+        if (GameManager.instance.isClick)
         {
-            if (GameManager.instance.BlockPosition.Last() != gameObject)
+            GameManager.instance.isClick = false;
+
+            if (BlockValue != 0)
             {
-                GameManager.instance.DragCount++;
-                foreach (var GameObj in GameManager.instance.BlockPosition)
+                if (GameManager.instance.BlockPosition.Last() != gameObject)
                 {
-                    if (GameObj.GetComponent<Block>().BlockValue != 0)
+                    GameManager.instance.DragCount++;
+                    foreach (var GameObj in GameManager.instance.BlockPosition)
                     {
-                        GameObj.GetComponent<Block>().BlockValue--;
+                        if (GameObj.GetComponent<Block>().BlockValue != 0)
+                        {
+                            GameObj.GetComponent<Block>().BlockValue--;
+                        }
                     }
                 }
+                else
+                {
+                    GameManager.instance.UndoList.Clear();
+                }
             }
-            else
-            {
-                GameManager.instance.UndoList.Clear();
-            }
-        }
 
-        GameManager.instance.BlockPosition.Clear();
+            GameManager.instance.drag_end_callback();
+
+            GameManager.instance.BlockPosition.Clear();
+        }
     }
 
     public void PointerDown()
