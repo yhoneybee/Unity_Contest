@@ -41,21 +41,7 @@ public class Algorithm : MonoBehaviour
     /// <param name="RB">RBÁÂÇ¥</param>
     void CirculationClock(Vector2Int LT, Vector2Int RB)
     {
-        List<Block> before = new List<Block>();
-        List<Block> after = new List<Block>();
-        for (int x = LT.x; x <= RB.x; x++)
-            before.Add(GameManager.instance.Blocks[cell_size.x * LT.y + x].GetComponent<Block>());
-        for (int y = LT.y; y <= RB.y; y++)
-            before.Add(GameManager.instance.Blocks[cell_size.x * y + RB.x].GetComponent<Block>());
-        for (int x = RB.x; x >= LT.x; x--)
-            before.Add(GameManager.instance.Blocks[cell_size.x * RB.y + x].GetComponent<Block>());
-        for (int y = RB.y; y >= LT.y; y--)
-            before.Add(GameManager.instance.Blocks[cell_size.x * y + LT.x].GetComponent<Block>());
-
-        for (int i = 0; i < before.Count; i++)
-        {
-            after.Add(before[i + 1 == before.Count ? 0 : i + 1]);
-        }
+        Vector2Int size = new Vector2Int(RB.x - LT.x + 1, RB.y - LT.y + 1);
     }
 
     void Update()
