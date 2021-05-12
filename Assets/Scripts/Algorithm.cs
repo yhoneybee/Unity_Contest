@@ -30,6 +30,7 @@ public class Algorithm : MonoBehaviour
         {
             Debug.Log("DragEnd!");
             //이제 여기서 블럭을 linked list마냥 돌리는거 하면 됨
+            CirculationClock(new Vector2Int(1, 1), new Vector2Int(3, 3));
         }
     }
 
@@ -38,9 +39,23 @@ public class Algorithm : MonoBehaviour
     /// </summary>
     /// <param name="LT">LT좌표</param>
     /// <param name="RB">RB좌표</param>
-    void Circulation(Vector2Int LT, Vector2Int RB)
+    void CirculationClock(Vector2Int LT, Vector2Int RB)
     {
+        List<Block> before = new List<Block>();
+        List<Block> after = new List<Block>();
+        for (int x = LT.x; x <= RB.x; x++)
+            before.Add(GameManager.instance.Blocks[cell_size.x * LT.y + x].GetComponent<Block>());
+        for (int y = LT.y; y <= RB.y; y++)
+            before.Add(GameManager.instance.Blocks[cell_size.x * y + RB.x].GetComponent<Block>());
+        for (int x = RB.x; x >= LT.x; x--)
+            before.Add(GameManager.instance.Blocks[cell_size.x * RB.y + x].GetComponent<Block>());
+        for (int y = RB.y; y >= LT.y; y--)
+            before.Add(GameManager.instance.Blocks[cell_size.x * y + LT.x].GetComponent<Block>());
 
+        for (int i = 0; i < before.Count; i++)
+        {
+            after.Add(before[i + 1 == before.Count ? 0 : i + 1]);
+        }
     }
 
     void Update()
