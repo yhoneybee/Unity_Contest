@@ -39,6 +39,11 @@ public class Block : MonoBehaviour
             }
         }
         BlockValueTxt.text = BlockValue.ToString();
+
+        if (BlockValue == 0)
+        {
+            img.color = new Color(0.8f, 0.4f, 0.8f);
+        }
     }
 
     public void PointerUp()
@@ -57,6 +62,10 @@ public class Block : MonoBehaviour
                         GameObj.GetComponent<Block>().BlockValue--;
                     }
                 }
+            }
+            else
+            {
+                GameManager.instance.UndoList.Clear();
             }
         }
 
@@ -120,15 +129,4 @@ public class Block : MonoBehaviour
             }
         }
     }
-    //public void Undo()
-    //{
-    //    if (GameManager.instance.BlockPosition.Count != 1)
-    //    {
-    //        foreach (var GameObj in GameManager.instance.UndoList)
-    //        {
-    //            GameObj.GetComponent<Block>().BlockValue++;
-    //        }
-    //            GameManager.instance.UndoList.Clear();
-    //    }
-    //}
 }

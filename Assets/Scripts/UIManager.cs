@@ -8,12 +8,10 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField]
     Text DragText;
-    // Start is called before the first frame update
     void Start()
     {
     }
 
-    // Update is called once per frame
     void Update()
     {
         DragText.text = "Drag Count : " + GameManager.instance.DragCount.ToString();

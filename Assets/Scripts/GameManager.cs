@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -45,9 +44,22 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        //foreach(var GameObj in BlockPosition)
-        //{
-        //    Debug.Log(GameObj);
-        //}
+    }
+
+    public void Undo()
+    {
+        if (UndoList.Count !=0)
+        {
+            Debug.Log(UndoList.Count);
+            foreach (var GameObj in UndoList)
+            {
+                GameObj.GetComponent<Block>().BlockValue++;
+            }
+            UndoList.Clear();
+            if (DragCount > 0)
+            {
+                DragCount--;
+            }
+        }
     }
 }
