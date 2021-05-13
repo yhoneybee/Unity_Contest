@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         {
             for (int x = 0; x < Algorithm.Instance.cell_size.x; x++)
             {
-                Debug.Log($"{x},{y}:{Blocks[Algorithm.Instance.cell_size.x * y + x].name}");
+                //Debug.Log($"{x},{y}:{Blocks[Algorithm.Instance.cell_size.x * y + x].name}");
                 Blocks[Algorithm.Instance.cell_size.x * y + x].GetComponent<Block>().BlockValue = Algorithm.Instance.cell[x][y];
             }
         }

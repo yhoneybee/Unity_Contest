@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,7 +34,6 @@ public class Algorithm : MonoBehaviour
             CirculationClock(new Vector2Int(1, 1), new Vector2Int(3, 3));
         }
     }
-
     /// <summary>
     /// LT와 RB좌표를 넘기면 그 구역 테두리에 있는 블럭을 돌려준다.
     /// </summary>
@@ -41,9 +41,32 @@ public class Algorithm : MonoBehaviour
     /// <param name="RB">RB좌표</param>
     void CirculationClock(Vector2Int LT, Vector2Int RB)
     {
-        Vector2Int size = new Vector2Int(RB.x - LT.x + 1, RB.y - LT.y + 1);
-    }
+        List<Block> before = new List<Block>();
 
+        Vector2Int add = new Vector2Int(1, 1);
+
+        for (int i = 0; i < 2; i++)
+        {
+            for (int x = (add.x == 1 ? LT.x : RB.x); (add.x == 1 ? x <= RB.x : x >= LT.x); x += add.x)
+                before.Add(GameManager.instance.Blocks[cell_size.x * (add.y == 1 ? LT.y : RB.y) + x].GetComponent<Block>());
+
+            for (int y = (add.y == 1 ? LT.y : RB.y); (add.y == 1 ? y <= RB.y : y >= LT.y); y += add.y)
+                before.Add(GameManager.instance.Blocks[cell_size.x * y + (add.x == 1 ? RB.x : LT.x)].GetComponent<Block>());
+
+            add = new Vector2Int(-1, -1);
+        }
+
+        before = before.Distinct().ToList();
+
+        int block_value = before[0].BlockValue;
+
+        for (int i = before.Count - 1; i >= 0; i--)
+        {
+            before[i == before.Count - 1 ? 0 : i + 1].BlockValue = before[i].BlockValue;
+        }
+
+        before[1].BlockValue = block_value;
+    }
     void Update()
     {
 
@@ -110,7 +133,7 @@ public class Algorithm : MonoBehaviour
         {
             debug += $"{item.x},{item.y} -> ";
         }
-        Debug.Log(debug);
+        //Debug.Log(debug);
     }
     /// <summary>
     /// 실제로 돌아가는 스테이지 시작전에 불리는 함수
