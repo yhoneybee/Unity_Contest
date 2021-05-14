@@ -10,9 +10,13 @@ public class GameManager : MonoBehaviour
     public List<GameObject> Blocks { get; set; } = new List<GameObject>();
     public List<GameObject> BlockPosition { get; set; } = new List<GameObject>();
     public List<GameObject> UndoList = new List<GameObject>();
+    public List<GameObject> TempBlockList { get; set; } = new List<GameObject>();
+    private List<int> Test = new List<int>();
 
     public bool isClick;
     public bool SameBlock;
+    public int cell_size_xy;
+    public int Unblocks;
     public int DragCount { get; set; }
 
     void Awake()
@@ -29,6 +33,15 @@ public class GameManager : MonoBehaviour
         SetBlockValue();
 
         Algorithm.Instance.CellReset();
+
+        cell_size_xy = Algorithm.Instance.cell_size.x * Algorithm.Instance.cell_size.y;
+
+        CreateUnBlock();
+
+        for(int i=0; i<cell_size_xy;i++)
+        {
+            Blocks[i].GetComponent<Block>().myBlockNumber = i;
+        }
     }
 
     public void SetBlockValue()
@@ -50,7 +63,7 @@ public class GameManager : MonoBehaviour
 
     public void Undo()
     {
-        if (UndoList.Count !=0)
+        if (UndoList.Count != 0)
         {
             Debug.Log(UndoList.Count);
             foreach (var GameObj in UndoList)
@@ -61,6 +74,25 @@ public class GameManager : MonoBehaviour
             if (DragCount > 0)
             {
                 DragCount--;
+            }
+        }
+    }
+    public void CreateUnBlock()
+    {
+        Unblocks = 0;
+        foreach(var item in Blocks)
+        {
+            item.GetComponent<Block>().isUnblock = false;
+        }
+        for (int i = 0; i < 3;)
+        {
+            int RandomUnBlock = Random.Range(0, cell_size_xy);
+            if (Blocks[RandomUnBlock].GetComponent<Block>().isUnblock == false)
+            {
+                Blocks[RandomUnBlock].GetComponent<Block>().isUnblock = true;
+                Unblocks++;
+                i++;
+                Debug.Log("isUnBlock");
             }
         }
     }

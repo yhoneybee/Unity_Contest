@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class Block : MonoBehaviour
 {
     public int BlockValue;
+    public bool isUnblock;
+    public int myBlockNumber;
     Image img;
     RectTransform rt;
     Text BlockValueTxt;
@@ -24,25 +26,35 @@ public class Block : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance.isClick == false)
+        if (isUnblock == true)
         {
-            img.color = new Color(1, 1, 1);
+            img.color = new Color(0.9f, 0.1f, 0.1f);
+            BlockValueTxt.text = BlockValue.ToString();
+
+            //if(myBlockNumber)
         }
         else
         {
-            if (img.color == new Color(0.8f, 0.8f, 0.1f))
+            if (GameManager.instance.isClick == false)
             {
-                if (GameManager.instance.BlockPosition.Last() != gameObject)
+                img.color = new Color(1, 1, 1);
+            }
+            else
+            {
+                if (img.color == new Color(0.8f, 0.8f, 0.1f))
                 {
-                    img.color = new Color(0.9f, 0.9f, 0.9f);
+                    if (GameManager.instance.BlockPosition.Last() != gameObject)
+                    {
+                        img.color = new Color(0.9f, 0.9f, 0.9f);
+                    }
                 }
             }
-        }
-        BlockValueTxt.text = BlockValue.ToString();
+            BlockValueTxt.text = BlockValue.ToString();
 
-        if (BlockValue == 0)
-        {
-            img.color = new Color(0.8f, 0.4f, 0.8f);
+            if (BlockValue == 0)
+            {
+                img.color = new Color(0.8f, 0.4f, 0.8f);
+            }
         }
     }
 

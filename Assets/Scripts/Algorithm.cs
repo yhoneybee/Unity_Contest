@@ -153,6 +153,7 @@ public class Algorithm : MonoBehaviour
     {
         Logic(lastLogic);
         GameManager.instance.SetBlockValue();
+        GameManager.instance.CreateUnBlock();
     }
     public void PrintCell()
     {
