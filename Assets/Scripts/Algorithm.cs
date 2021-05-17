@@ -12,6 +12,8 @@ public class Algorithm : MonoBehaviour
 
     public List<List<int>> cell = new List<List<int>>();
 
+    public Dictionary<string, int> portals = new Dictionary<string, int>();
+
     int lastLogic;
 
     private void Awake()
@@ -67,6 +69,13 @@ public class Algorithm : MonoBehaviour
 
         before[1].BlockValue = block_value;
     }
+
+    public void PortalCreate(Vector2Int enter, Vector2Int exit)
+    {
+        portals.Add(enter.ToString(), portals.Count);
+        portals.Add(exit.ToString(), portals.Count);
+    }
+
     void Update()
     {
 

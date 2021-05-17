@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public bool SameBlock;
     public int cell_size_xy;
     public int Unblocks;
+    public sbyte ReRollCount;
     public int DragCount { get; set; }
 
     void Awake()
