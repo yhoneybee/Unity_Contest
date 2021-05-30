@@ -728,6 +728,7 @@ GameObject:
   - component: {fileID: 242224892}
   - component: {fileID: 242224891}
   - component: {fileID: 242224895}
+  - component: {fileID: 242224896}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -832,6 +833,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DragText: {fileID: 1620633738}
+--- !u!114 &242224896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242224890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8896f95c2e303db408948f2a398bfbab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &275511931
 GameObject:
   m_ObjectHideFlags: 0
@@ -1100,7 +1113,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 514899539}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 242224896}
+        m_TargetAssemblyTypeName: BlockReroll, Assembly-CSharp
+        m_MethodName: Reroll
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &514899539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2583,12 +2608,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f22cc6e6dc7a89642b97e5a83bf97f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Blocks: []
-  BlockPosition: []
   UndoList: []
   isClick: 0
   SameBlock: 0
-  DragCount: 0
+  cell_size_xy: 0
+  Unblocks: 0
 --- !u!4 &1186139252
 Transform:
   m_ObjectHideFlags: 0

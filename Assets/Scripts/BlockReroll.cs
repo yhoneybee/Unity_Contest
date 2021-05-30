@@ -31,7 +31,7 @@ public class BlockReroll : MonoBehaviour
             RandomBlcokSelect = Random.Range(0, TempValue.Count);
             GameManager.instance.Blocks[i].GetComponent<Block>().BlockValue = TempValue[RandomBlcokSelect];
             DebugReroll += TempValue[RandomBlcokSelect].ToString() + "/";
-            TempValue.Remove(RandomBlcokSelect);
+            TempValue.Remove(TempValue[RandomBlcokSelect]);
         }
 
         Debug.Log(DebugTemp);
