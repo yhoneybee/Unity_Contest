@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8274389152797749307}
   m_Layer: 5
   m_Name: Block
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,6 +91,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BlockValue: 0
+  isUnblock: 0
+  myBlockNumber: 0
 --- !u!114 &8274389152797749307
 MonoBehaviour:
   m_ObjectHideFlags: 0
