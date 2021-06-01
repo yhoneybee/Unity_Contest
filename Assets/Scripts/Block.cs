@@ -35,37 +35,37 @@ public class Block : MonoBehaviour
             if (myBlockNumber == 0)
             {
                 if (GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue == 0 &&
-                 GameManager.instance.Blocks[myBlockNumber + GameManager.instance.cell_size_xy].GetComponent<Block>().BlockValue == 0)
+                 GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                 }
             }
 
-            else if (myBlockNumber == GameManager.instance.cell_size_xy - 1)
+            else if (myBlockNumber == Algorithm.Instance.cell_size.x - 1)
             {
                 if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue == 0 &&
-                 GameManager.instance.Blocks[myBlockNumber + GameManager.instance.cell_size_xy].GetComponent<Block>().BlockValue == 0)
+                 GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                 }
             }
 
-            else if (myBlockNumber == GameManager.instance.cell_size_xy * (GameManager.instance.cell_size_xy - 1))
+            else if (myBlockNumber == Algorithm.Instance.cell_size.x * (Algorithm.Instance.cell_size.x - 1))
             {
                 if (GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue == 0 &&
-                 GameManager.instance.Blocks[myBlockNumber - GameManager.instance.cell_size_xy].GetComponent<Block>().BlockValue == 0)
+                 GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                 }
             }
 
-            else if (myBlockNumber == GameManager.instance.cell_size_xy * (GameManager.instance.cell_size_xy) - 1)
+            else if (myBlockNumber == Algorithm.Instance.cell_size.x * (Algorithm.Instance.cell_size.x) - 1)
             {
                 if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue == 0 &&
-                 GameManager.instance.Blocks[myBlockNumber - GameManager.instance.cell_size_xy].GetComponent<Block>().BlockValue == 0)
+                 GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
@@ -75,8 +75,8 @@ public class Block : MonoBehaviour
             else if (myBlockNumber % 5 == 0)
             {
                 if (GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue == 0 &&
-                     GameManager.instance.Blocks[myBlockNumber - GameManager.instance.cell_size_xy].GetComponent<Block>().BlockValue == 0 &&
-                     GameManager.instance.Blocks[myBlockNumber + GameManager.instance.cell_size_xy].GetComponent<Block>().BlockValue == 0)
+                     GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0 &&
+                     GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
@@ -86,42 +86,42 @@ public class Block : MonoBehaviour
             else if (myBlockNumber % 4 == 0)
             {
                 if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue == 0 &&
-                     GameManager.instance.Blocks[myBlockNumber - GameManager.instance.cell_size_xy].GetComponent<Block>().BlockValue == 0 &&
-                     GameManager.instance.Blocks[myBlockNumber + GameManager.instance.cell_size_xy].GetComponent<Block>().BlockValue == 0)
+                     GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0 &&
+                     GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                 }
             }
 
-            else if (myBlockNumber > 0 && myBlockNumber < GameManager.instance.cell_size_xy - 1)
+            else if (myBlockNumber > 0 && myBlockNumber < Algorithm.Instance.cell_size.x - 1)
             {
                 if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue == 0 &&
                     GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue == 0 &&
-                    GameManager.instance.Blocks[myBlockNumber + GameManager.instance.cell_size_xy].GetComponent<Block>().BlockValue == 0)
+                    GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                 }
             }
 
-            else if (myBlockNumber > GameManager.instance.cell_size_xy * (GameManager.instance.cell_size_xy - 1) && myBlockNumber < GameManager.instance.cell_size_xy * GameManager.instance.cell_size_xy - 1)
+            else if (myBlockNumber > Algorithm.Instance.cell_size.x * (Algorithm.Instance.cell_size.x - 1) && myBlockNumber < Algorithm.Instance.cell_size.x * Algorithm.Instance.cell_size.x - 1)
             {
                 if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue == 0 &&
                     GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue == 0 &&
-                    GameManager.instance.Blocks[myBlockNumber - GameManager.instance.cell_size_xy].GetComponent<Block>().BlockValue == 0)
+                    GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                 }
             }
 
-            else if (myBlockNumber > 0 && myBlockNumber < GameManager.instance.cell_size_xy * GameManager.instance.cell_size_xy - 1)
+            else if (myBlockNumber > 0 && myBlockNumber < Algorithm.Instance.cell_size.x * Algorithm.Instance.cell_size.x - 1)
             {
                 if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue == 0 &&
                     GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue == 0 &&
-                    GameManager.instance.Blocks[myBlockNumber + GameManager.instance.cell_size_xy].GetComponent<Block>().BlockValue == 0&&
-                    GameManager.instance.Blocks[myBlockNumber - GameManager.instance.cell_size_xy].GetComponent<Block>().BlockValue == 0)
+                    GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0&&
+                    GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
