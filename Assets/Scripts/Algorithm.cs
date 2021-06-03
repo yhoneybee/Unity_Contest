@@ -163,6 +163,7 @@ public class Algorithm : MonoBehaviour
         Logic(lastLogic);
         GameManager.instance.SetBlockValue();
         GameManager.instance.CreateUnBlock();
+        GameManager.instance.ReRollCount = 0;
     }
     public void PrintCell()
     {
