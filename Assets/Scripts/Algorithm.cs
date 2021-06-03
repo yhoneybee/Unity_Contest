@@ -64,7 +64,23 @@ public class Algorithm : MonoBehaviour
 
         for (int i = before.Count - 1; i >= 0; i--)
         {
-            before[i == before.Count - 1 ? 0 : i + 1].BlockValue = before[i].BlockValue;
+            if (before[i].BlockValue == 0)
+                continue;
+            if (before[i == before.Count - 1 ? 0 : i + 1].BlockValue == 0)
+            {
+                int next = i;
+                while (true)
+                {
+                    next++;
+                    if (before[next == before.Count - 1 ? 0 : next + 1].BlockValue != 0)
+                    {
+                        before[next == before.Count - 1 ? 0 : next + 1].BlockValue = before[i].BlockValue;
+                        break;
+                    }
+                }
+            }
+            else
+                before[i == before.Count - 1 ? 0 : i + 1].BlockValue = before[i].BlockValue;
         }
 
         before[1].BlockValue = block_value;
