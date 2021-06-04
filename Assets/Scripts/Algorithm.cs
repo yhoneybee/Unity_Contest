@@ -72,6 +72,7 @@ public class Algorithm : MonoBehaviour
                 while (true)
                 {
                     next++;
+                    if (next >= 8) break;
                     if (before[next == before.Count - 1 ? 0 : next + 1].BlockValue != 0)
                     {
                         before[next == before.Count - 1 ? 0 : next + 1].BlockValue = before[i].BlockValue;
@@ -83,7 +84,7 @@ public class Algorithm : MonoBehaviour
                 before[i == before.Count - 1 ? 0 : i + 1].BlockValue = before[i].BlockValue;
         }
 
-        before[1].BlockValue = block_value;
+        //before[1].BlockValue = block_value;
     }
 
     public void PortalCreate(Vector2Int enter, Vector2Int exit)
@@ -180,6 +181,7 @@ public class Algorithm : MonoBehaviour
         GameManager.instance.SetBlockValue();
         GameManager.instance.CreateUnBlock();
         GameManager.instance.ReRollCount = 0;
+        GameManager.instance.Clear = false;
     }
     public void PrintCell()
     {

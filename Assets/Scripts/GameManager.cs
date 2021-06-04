@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public int cell_size_xy;
     public int Unblocks;
     public sbyte ReRollCount;
+    public bool Clear;
     public int DragCount { get; set; }
 
     void Awake()
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
 
         CreateUnBlock();
 
-        for(int i=0; i<cell_size_xy;i++)
+        for (int i = 0; i < cell_size_xy; i++)
         {
             Blocks[i].GetComponent<Block>().myBlockNumber = i;
         }
@@ -60,6 +61,21 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        int i = 0;
+        foreach (var item in Blocks)
+        {
+            if (item.GetComponent<Block>().isUnblock == false)
+            {
+                if (item.GetComponent<Block>().BlockValue == 0)
+                {
+                    i++;
+                }
+            }
+        }
+        if (i == cell_size_xy)
+        {
+            Clear = true;
+        }
     }
 
     public void Undo()
@@ -81,7 +97,7 @@ public class GameManager : MonoBehaviour
     public void CreateUnBlock()
     {
         Unblocks = 0;
-        foreach(var item in Blocks)
+        foreach (var item in Blocks)
         {
             item.GetComponent<Block>().isUnblock = false;
         }
