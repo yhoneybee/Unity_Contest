@@ -2977,6 +2977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UndoList: []
+  logic_count: 25
   isClick: 0
   SameBlock: 0
   cell_size_xy: 0

@@ -24,7 +24,7 @@ public class Algorithm : MonoBehaviour
     {
         CellReset();
         GameManager.instance.drag_end_callback += OnDragEnd;
-        PortalCreate(new Vector2Int(0, 0), new Vector2Int(4, 0), true);
+        PortalCreate(new Vector2Int(2, 2), new Vector2Int(4, 0), true);
         //PortalCreate(new Vector2Int(4, 4), new Vector2Int(0, 4));
     }
 
@@ -33,7 +33,6 @@ public class Algorithm : MonoBehaviour
     {
         if (GameManager.instance.BlockPosition.Count > 1)
         {
-            Debug.Log("DragEnd!");
             //이제 여기서 블럭을 linked list마냥 돌리는거 하면 됨
             CirculationClock(new Vector2Int(1, 1), new Vector2Int(3, 3));
         }
@@ -66,24 +65,25 @@ public class Algorithm : MonoBehaviour
 
         for (int i = before.Count - 1; i >= 0; i--)
         {
-            if (before[i].BlockValue == 0)
-                continue;
-            if (before[i == before.Count - 1 ? 0 : i + 1].BlockValue == 0)
+            if (before[i].BlockValue != 0)
             {
-                int next = i;
-                while (true)
+                if (before[i == before.Count - 1 ? 0 : i + 1].BlockValue == 0)
                 {
-                    next++;
-                    if (next >= 8) break;
-                    if (before[next == before.Count - 1 ? 0 : next + 1].BlockValue != 0)
+                    int next = i;
+                    while (true)
                     {
-                        before[next == before.Count - 1 ? 0 : next + 1].BlockValue = before[i].BlockValue;
-                        break;
+                        next++;
+                        if (next >= 8) break;
+                        if (before[next == before.Count - 1 ? 0 : next + 1].BlockValue != 0)
+                        {
+                            before[next == before.Count - 1 ? 0 : next + 1].BlockValue = before[i].BlockValue;
+                            break;
+                        }
                     }
                 }
+                else
+                    before[i == before.Count - 1 ? 0 : i + 1].BlockValue = before[i].BlockValue;
             }
-            else
-                before[i == before.Count - 1 ? 0 : i + 1].BlockValue = before[i].BlockValue;
         }
 
         for (int i = 1; i < 8; i++)
