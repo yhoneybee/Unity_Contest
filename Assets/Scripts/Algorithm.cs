@@ -351,7 +351,11 @@ public class Algorithm : MonoBehaviour
 
     public void Warp()
     {
-
+        foreach (var p in portals)
+        {
+            Block enter_target = GameManager.instance.Blocks[(int)(p.enter_pos.y + p.enter_dir.y * -1) * cell_size.x + (int)(p.enter_pos.x + p.enter_dir.x * -1)].GetComponent<Block>();
+            //행과 열 이동 구현후에 만들것. ex ) 2048의 밀리는 이동
+        }
     }
 
     void Update()
