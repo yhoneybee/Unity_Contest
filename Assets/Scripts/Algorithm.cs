@@ -84,7 +84,13 @@ public class Algorithm : MonoBehaviour
                 before[i == before.Count - 1 ? 0 : i + 1].BlockValue = before[i].BlockValue;
         }
 
-        //before[1].BlockValue = block_value;
+        for (int i = 1; i < 8; i++)
+            if (before[i].BlockValue != 0)
+            {
+                if (block_value == 0) break;
+                before[i].BlockValue = block_value;
+                break;
+            }
     }
 
     public void PortalCreate(Vector2Int enter, Vector2Int exit)
