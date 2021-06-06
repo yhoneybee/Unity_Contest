@@ -6,10 +6,11 @@ public class Block : MonoBehaviour
 {
     public int BlockValue;
     public bool isUnblock;
+    public bool isPortal;
     public int myBlockNumber;
-    Image img;
+    public Image img { get; set; }
+    public Text BlockValueTxt { get; set; }
     RectTransform rt;
-    Text BlockValueTxt;
 
     private void Awake()
     {
@@ -26,7 +27,18 @@ public class Block : MonoBehaviour
 
     void Update()
     {
-        if (isUnblock == true)
+        if (isPortal)
+        {
+            if (isUnblock)
+            {
+                isUnblock = false;
+                int rand = Random.Range(0, 25);
+                Debug.Log($"{myBlockNumber} ---> 장애물 위치 재탐색 ---> index : {rand}");
+                GameManager.instance.Blocks[rand].GetComponent<Block>().isUnblock = true;
+            }
+            BlockValue = -1;
+        }
+        else if (isUnblock)
         {
             BlockValue = 0;
             img.color = new Color(0.9f, 0.1f, 0.1f);
@@ -34,8 +46,8 @@ public class Block : MonoBehaviour
 
             if (myBlockNumber == 0)
             {
-                if (GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue == 0 &&
-                 GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
+                if (GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue <= 0 &&
+                 GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
@@ -44,8 +56,8 @@ public class Block : MonoBehaviour
 
             else if (myBlockNumber == Algorithm.Instance.cell_size.x - 1)
             {
-                if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue == 0 &&
-                 GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
+                if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue <= 0 &&
+                 GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
@@ -54,8 +66,8 @@ public class Block : MonoBehaviour
 
             else if (myBlockNumber == Algorithm.Instance.cell_size.x * (Algorithm.Instance.cell_size.x - 1))
             {
-                if (GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue == 0 &&
-                 GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
+                if (GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue <= 0 &&
+                 GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
@@ -64,8 +76,8 @@ public class Block : MonoBehaviour
 
             else if (myBlockNumber == Algorithm.Instance.cell_size.x * (Algorithm.Instance.cell_size.x) - 1)
             {
-                if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue == 0 &&
-                 GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
+                if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue <= 0 &&
+                 GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
@@ -74,9 +86,9 @@ public class Block : MonoBehaviour
 
             else if (myBlockNumber % 5 == 0)
             {
-                if (GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue == 0 &&
-                     GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0 &&
-                     GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
+                if (GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue <= 0 &&
+                     GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0 &&
+                     GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
@@ -85,9 +97,9 @@ public class Block : MonoBehaviour
 
             else if (myBlockNumber % 4 == 0)
             {
-                if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue == 0 &&
-                     GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0 &&
-                     GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
+                if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue <= 0 &&
+                     GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0 &&
+                     GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
@@ -96,9 +108,9 @@ public class Block : MonoBehaviour
 
             else if (myBlockNumber > 0 && myBlockNumber < Algorithm.Instance.cell_size.x - 1)
             {
-                if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue == 0 &&
-                    GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue == 0 &&
-                    GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
+                if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue <= 0 &&
+                    GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue <= 0 &&
+                    GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
@@ -107,9 +119,9 @@ public class Block : MonoBehaviour
 
             else if (myBlockNumber > Algorithm.Instance.cell_size.x * (Algorithm.Instance.cell_size.x - 1) && myBlockNumber < Algorithm.Instance.cell_size.x * Algorithm.Instance.cell_size.x - 1)
             {
-                if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue == 0 &&
-                    GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue == 0 &&
-                    GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
+                if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue <= 0 &&
+                    GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue <= 0 &&
+                    GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
@@ -118,10 +130,10 @@ public class Block : MonoBehaviour
 
             else if (myBlockNumber > 0 && myBlockNumber < Algorithm.Instance.cell_size.x * Algorithm.Instance.cell_size.x - 1)
             {
-                if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue == 0 &&
-                    GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue == 0 &&
-                    GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0&&
-                    GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue == 0)
+                if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue <= 0 &&
+                    GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue <= 0 &&
+                    GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0 &&
+                    GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
@@ -160,14 +172,14 @@ public class Block : MonoBehaviour
         {
             GameManager.instance.isClick = false;
 
-            if (BlockValue != 0)
+            if (BlockValue > 0)
             {
                 if (GameManager.instance.BlockPosition.Last() != gameObject)
                 {
                     GameManager.instance.DragCount++;
                     foreach (var GameObj in GameManager.instance.BlockPosition)
                     {
-                        if (GameObj.GetComponent<Block>().BlockValue != 0)
+                        if (GameObj.GetComponent<Block>().BlockValue > 0)
                         {
                             GameObj.GetComponent<Block>().BlockValue--;
                         }
@@ -188,7 +200,7 @@ public class Block : MonoBehaviour
     public void PointerDown()
     {
         GameManager.instance.UndoList.Clear();
-        if (BlockValue != 0)
+        if (BlockValue > 0)
         {
             GameManager.instance.isClick = true;
             img.color = new Color(0.8f, 0.8f, 0.1f);
@@ -202,7 +214,7 @@ public class Block : MonoBehaviour
     {
         if (GameManager.instance.isClick == true)
         {
-            if (BlockValue == 0)
+            if (BlockValue <= 0)
                 return;
             Vector2 LastAPosition = GameManager.instance.BlockPosition.Last().GetComponent<RectTransform>().anchoredPosition;
 

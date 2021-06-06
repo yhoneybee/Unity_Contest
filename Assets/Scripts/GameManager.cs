@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
     public List<GameObject> TempBlockList { get; set; } = new List<GameObject>();
     private List<int> Test = new List<int>();
 
+    [Header("로직 부를 횟수")]
+    public int logic_count = 25;
+
+    [Space(20)]
     public bool isClick;
     public bool SameBlock;
     public int cell_size_xy;
@@ -27,7 +31,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        Algorithm.Instance.Logic(10);
+        Algorithm.Instance.Logic(logic_count);
         Algorithm.Instance.PrintCell();
 
         Blocks.Sort((o1, o2) => int.Parse(o1.name).CompareTo(int.Parse(o2.name)));

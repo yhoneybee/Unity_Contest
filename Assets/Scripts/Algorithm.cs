@@ -12,7 +12,7 @@ public class Algorithm : MonoBehaviour
 
     public List<List<int>> cell = new List<List<int>>();
 
-    public Dictionary<string, int> portals = new Dictionary<string, int>();
+    public List<Portal> portals = new List<Portal>();
 
     int lastLogic;
 
@@ -24,6 +24,8 @@ public class Algorithm : MonoBehaviour
     {
         CellReset();
         GameManager.instance.drag_end_callback += OnDragEnd;
+        PortalCreate(new Vector2Int(0, 0), new Vector2Int(4, 0), true);
+        //PortalCreate(new Vector2Int(4, 4), new Vector2Int(0, 4));
     }
 
     // 드레그 끝나고 불리는 함수
@@ -93,10 +95,263 @@ public class Algorithm : MonoBehaviour
             }
     }
 
-    public void PortalCreate(Vector2Int enter, Vector2Int exit)
+    public class Portal
     {
-        portals.Add(enter.ToString(), portals.Count);
-        portals.Add(exit.ToString(), portals.Count);
+        public Vector2Int enter_pos;
+        public Vector2Int exit_pos;
+
+        public Vector2 enter_dir; // 들어가는 방향
+        public Vector2 exit_dir;  // 나오는 방향
+    }
+
+    public void PortalCreate(Vector2Int enter, Vector2Int exit, bool isRandomDir = false)
+    {
+        Debug.Log($"{enter} / {exit}"); // (x, y)
+
+        Portal portal = new Portal();
+
+        portal.enter_pos = enter;
+        portal.exit_pos = exit;
+
+        if (isRandomDir)
+        {
+            if (enter.x == 0 || enter.y == 0)
+            {
+                if (enter.x == 0 && enter.y == 0)
+                {
+                    switch (Random.Range(0, 2))
+                    {
+                        case 0: portal.enter_dir = Vector2Int.up; break;
+                        case 1: portal.enter_dir = Vector2Int.left; break;
+                    }
+                }
+                else if (enter.x == 0)
+                {
+                    switch (Random.Range(0, 3))
+                    {
+                        case 0: portal.enter_dir = Vector2Int.up; break;
+                        case 1: portal.enter_dir = Vector2Int.left; break;
+                        case 2: portal.enter_dir = Vector2Int.down; break;
+                    }
+                    if (enter.y == cell_size.y - 1)
+                    {
+                        switch (Random.Range(0, 2))
+                        {
+                            case 0: portal.enter_dir = Vector2Int.down; break;
+                            case 1: portal.enter_dir = Vector2Int.left; break;
+                        }
+                    }
+                }
+                else if (enter.y == 0)
+                {
+                    switch (Random.Range(0, 3))
+                    {
+                        case 0: portal.enter_dir = Vector2Int.up; break;
+                        case 1: portal.enter_dir = Vector2Int.left; break;
+                        case 2: portal.enter_dir = Vector2Int.right; break;
+                    }
+                    if (enter.x == cell_size.x - 1)
+                    {
+                        switch (Random.Range(0, 2))
+                        {
+                            case 0: portal.enter_dir = Vector2Int.up; break;
+                            case 1: portal.enter_dir = Vector2Int.right; break;
+                        }
+                    }
+                }
+            }
+            else if (enter.x == cell_size.x - 1 || enter.y == cell_size.y - 1)
+            {
+                if (enter.x == cell_size.x - 1 && enter.y == cell_size.y - 1)
+                {
+                    switch (Random.Range(0, 2))
+                    {
+                        case 0: portal.enter_dir = Vector2Int.down; break;
+                        case 1: portal.enter_dir = Vector2Int.right; break;
+                    }
+                }
+                else if (enter.x == cell_size.x - 1)
+                {
+                    switch (Random.Range(0, 3))
+                    {
+                        case 0: portal.enter_dir = Vector2Int.up; break;
+                        case 1: portal.enter_dir = Vector2Int.right; break;
+                        case 2: portal.enter_dir = Vector2Int.down; break;
+                    }
+                }
+                else if (enter.y == cell_size.y - 1)
+                {
+                    switch (Random.Range(0, 3))
+                    {
+                        case 0: portal.enter_dir = Vector2Int.down; break;
+                        case 1: portal.enter_dir = Vector2Int.left; break;
+                        case 2: portal.enter_dir = Vector2Int.right; break;
+                    }
+                }
+            }
+            else
+            {
+                switch (Random.Range(0, 4))
+                {
+                    case 0: portal.enter_dir = Vector2Int.up; break;
+                    case 1: portal.enter_dir = Vector2Int.down; break;
+                    case 2: portal.enter_dir = Vector2Int.right; break;
+                    case 3: portal.enter_dir = Vector2Int.left; break;
+                }
+            }
+
+            if (exit.x == 0 || exit.y == 0)
+            {
+                if (exit.x == 0 && exit.y == 0)
+                {
+                    switch (Random.Range(0, 2))
+                    {
+                        case 0: portal.exit_dir = Vector2Int.down; break;
+                        case 1: portal.exit_dir = Vector2Int.right; break;
+                    }
+                }
+                else if (exit.x == 0)
+                {
+                    switch (Random.Range(0, 3))
+                    {
+                        case 0: portal.exit_dir = Vector2Int.up; break;
+                        case 1: portal.exit_dir = Vector2Int.right; break;
+                        case 2: portal.exit_dir = Vector2Int.down; break;
+                    }
+                    if (exit.y == cell_size.y - 1)
+                    {
+                        switch (Random.Range(0, 2))
+                        {
+                            case 0: portal.exit_dir = Vector2Int.up; break;
+                            case 1: portal.exit_dir = Vector2Int.right; break;
+                        }
+                    }
+                }
+                else if (exit.y == 0)
+                {
+                    switch (Random.Range(0, 3))
+                    {
+                        case 0: portal.exit_dir = Vector2Int.down; break;
+                        case 1: portal.exit_dir = Vector2Int.left; break;
+                        case 2: portal.exit_dir = Vector2Int.right; break;
+                    }
+                    if (exit.x == cell_size.x - 1)
+                    {
+                        switch (Random.Range(0, 2))
+                        {
+                            case 0: portal.exit_dir = Vector2Int.down; break;
+                            case 1: portal.exit_dir = Vector2Int.left; break;
+                        }
+                    }
+                }
+            }
+            else if (exit.x == cell_size.x - 1 || exit.y == cell_size.y - 1)
+            {
+                if (exit.x == cell_size.x - 1 && exit.y == cell_size.y - 1)
+                {
+                    switch (Random.Range(0, 2))
+                    {
+                        case 0: portal.exit_dir = Vector2Int.up; break;
+                        case 1: portal.exit_dir = Vector2Int.left; break;
+                    }
+                }
+                else if (exit.x == cell_size.x - 1)
+                {
+                    switch (Random.Range(0, 3))
+                    {
+                        case 0: portal.exit_dir = Vector2Int.up; break;
+                        case 1: portal.exit_dir = Vector2Int.left; break;
+                        case 2: portal.exit_dir = Vector2Int.down; break;
+                    }
+                }
+                else if (exit.y == cell_size.y - 1)
+                {
+                    switch (Random.Range(0, 3))
+                    {
+                        case 0: portal.exit_dir = Vector2Int.up; break;
+                        case 1: portal.exit_dir = Vector2Int.left; break;
+                        case 2: portal.exit_dir = Vector2Int.right; break;
+                    }
+                }
+            }
+            else
+            {
+                switch (Random.Range(0, 4))
+                {
+                    case 0: portal.exit_dir = Vector2Int.up; break;
+                    case 1: portal.exit_dir = Vector2Int.down; break;
+                    case 2: portal.exit_dir = Vector2Int.right; break;
+                    case 3: portal.exit_dir = Vector2Int.left; break;
+                }
+            }
+        }
+        else
+        {
+            if (enter.x == 0)
+            {
+                portal.enter_dir = Vector2Int.left;
+                portal.exit_dir = Vector2Int.left;
+            }
+            else
+            {
+                portal.enter_dir = Vector2Int.right;
+                portal.exit_dir = Vector2Int.right;
+            }
+        }
+
+        Debug.Log($"{portal.enter_dir} / {portal.exit_dir}");
+
+        portals.Add(portal);
+
+        Block block_enter = GameManager.instance.Blocks[enter.y * cell_size.x + enter.x].GetComponent<Block>();
+        Block block_exit = GameManager.instance.Blocks[exit.y * cell_size.x + exit.x].GetComponent<Block>();
+
+        block_enter.isPortal = true;
+        block_exit.isPortal = true;
+
+        if (portal.enter_dir.x != 0)
+        {
+            if (portal.enter_dir.x > 0)
+                block_enter.BlockValueTxt.text = "I＞";
+            else
+                block_enter.BlockValueTxt.text = "I＜";
+        }
+        else if (portal.enter_dir.y != 0)
+        {
+            if (portal.enter_dir.y > 0)
+                block_enter.BlockValueTxt.text = "I∧";
+            else
+                block_enter.BlockValueTxt.text = "I∨";
+        }
+
+        if (portal.exit_dir.x != 0)
+        {
+            if (portal.exit_dir.x > 0)
+                block_exit.BlockValueTxt.text = "O＞";
+            else
+                block_exit.BlockValueTxt.text = "O＜";
+        }
+        else if (portal.exit_dir.y != 0)
+        {
+            if (portal.exit_dir.y > 0)
+                block_exit.BlockValueTxt.text = "O∧";
+            else
+                block_exit.BlockValueTxt.text = "O∨";
+        }
+
+        block_enter.BlockValue = -1;
+        block_exit.BlockValue = -1;
+
+        block_enter.BlockValueTxt.color = new Color(1, 1, 1);
+        block_exit.BlockValueTxt.color = new Color(1, 1, 1);
+
+        block_enter.img.color = new Color(0.1f, 0.3f, 0.5f);
+        block_exit.img.color = new Color(0.1f, 0.5f, 0.5f);
+    }
+
+    public void Warp()
+    {
+
     }
 
     void Update()
