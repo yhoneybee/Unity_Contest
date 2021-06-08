@@ -39,6 +39,7 @@ public class Block : MonoBehaviour
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
+                    Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0,0,-10),Quaternion.identity);
                 }
             }
 
@@ -49,6 +50,7 @@ public class Block : MonoBehaviour
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
+                    Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0, -10), Quaternion.identity);
                 }
             }
 
@@ -59,6 +61,7 @@ public class Block : MonoBehaviour
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
+                    Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0, -10), Quaternion.identity);
                 }
             }
 
@@ -69,6 +72,7 @@ public class Block : MonoBehaviour
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
+                    Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0, -10), Quaternion.identity);
                 }
             }
 
@@ -80,6 +84,7 @@ public class Block : MonoBehaviour
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
+                    Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0, -10), Quaternion.identity);
                 }
             }
 
@@ -91,6 +96,7 @@ public class Block : MonoBehaviour
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
+                    Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0, -10), Quaternion.identity);
                 }
             }
 
@@ -102,6 +108,7 @@ public class Block : MonoBehaviour
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
+                    Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0, -10), Quaternion.identity);
                 }
             }
 
@@ -113,6 +120,7 @@ public class Block : MonoBehaviour
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
+                    Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0, -10), Quaternion.identity);
                 }
             }
 
@@ -125,6 +133,7 @@ public class Block : MonoBehaviour
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
+                    Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0, -10), Quaternion.identity);
                 }
             }
 
