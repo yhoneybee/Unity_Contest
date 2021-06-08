@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> UndoList = new List<GameObject>();
     public List<GameObject> TempBlockList { get; set; } = new List<GameObject>();
     private List<int> Test = new List<int>();
+    public GameObject ExplosionPrefab;
 
     [Header("로직 부를 횟수")]
     public int logic_count = 25;
