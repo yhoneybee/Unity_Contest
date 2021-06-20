@@ -36,6 +36,65 @@ public class Algorithm : MonoBehaviour
             //이제 여기서 블럭을 linked list마냥 돌리는거 하면 됨
             CirculationClock(new Vector2Int(1, 1), new Vector2Int(3, 3));
         }
+        if (portals.Count > 0)
+        {
+            foreach (var portal in portals)
+            {
+                int enter_list_num = portal.enter_pos.y * cell_size.x + portal.enter_pos.x;
+                int exit_list_num = portal.exit_pos.y * cell_size.x + portal.exit_pos.x;
+
+                GameObject enter_obj = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == enter_list_num; });
+                GameObject exit_obj = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == exit_list_num; });
+
+                // enter는 Vector.right 일경우에는 >이런 모양이기에
+                // enter 위치에서 왼쪽에 있는 모든 블럭을 enter 포탈 있곳까지로 오른쪽으로 한칸씩 옮기고 
+                // 포탈에 도달한 친구는 exit의 방향대로 벹어내는데 exit에서 벹어낼때에 한칸씩 벹어내는 방향으로 밀림
+                // 만약 cell의 범위 밖으로 나갔다면 enter를 위해 움직이고 비어있는 위치에 넣는다
+
+                // 포탈이 있음
+
+                // ㅁ ㅁ ㅁ ㅁ ㅁ
+                // 1 2 3 i> ㅁ
+                // ㅁ ㅁ ㅁ ㅁ ㅁ
+                // ㅁ ㅁ o> 4 5
+                // ㅁ ㅁ ㅁ ㅁ ㅁ
+
+                // 5가 밀려서 범위에서 벗어남
+
+                // ㅁ ㅁ ㅁ ㅁ ㅁ
+                // X 1 2 i> ㅁ
+                // ㅁ ㅁ ㅁ ㅁ ㅁ
+                // ㅁ ㅁ o> 3 4
+                // ㅁ ㅁ ㅁ ㅁ ㅁ
+
+                // 5를 enter때문에 생긴 빈 공간 X에 5를 넣음
+
+                // ㅁ ㅁ ㅁ ㅁ ㅁ
+                // 5 1 2 i> ㅁ
+                // ㅁ ㅁ ㅁ ㅁ ㅁ
+                // ㅁ ㅁ o> 3 4
+                // ㅁ ㅁ ㅁ ㅁ ㅁ
+
+                // 위에 과정을 반복하는 알고리즘을 만들기
+
+                if (portal.enter_dir == Vector2.up)
+                {
+
+                }
+                if (portal.enter_dir == Vector2.down)
+                {
+
+                }
+                if (portal.enter_dir == Vector2.left)
+                {
+
+                }
+                if (portal.enter_dir == Vector2.right)
+                {
+
+                }
+            }
+        }
     }
     /// <summary>
     /// LT와 RB좌표를 넘기면 그 구역 테두리에 있는 블럭을 돌려준다.
@@ -312,16 +371,16 @@ public class Algorithm : MonoBehaviour
         if (portal.enter_dir.x != 0)
         {
             if (portal.enter_dir.x > 0)
-                block_enter.BlockValueTxt.text = "I＞";
+                block_enter.BlockValueTxt.text = "＞I";
             else
-                block_enter.BlockValueTxt.text = "I＜";
+                block_enter.BlockValueTxt.text = "＜I";
         }
         else if (portal.enter_dir.y != 0)
         {
             if (portal.enter_dir.y > 0)
-                block_enter.BlockValueTxt.text = "I∧";
+                block_enter.BlockValueTxt.text = "∧I";
             else
-                block_enter.BlockValueTxt.text = "I∨";
+                block_enter.BlockValueTxt.text = "∨I";
         }
 
         if (portal.exit_dir.x != 0)
