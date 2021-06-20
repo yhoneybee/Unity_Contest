@@ -54,7 +54,7 @@ public class Algorithm : MonoBehaviour
                 // 포탈이 있음
 
                 // ㅁ ㅁ ㅁ ㅁ ㅁ
-                // 1 2 3 i> ㅁ
+                // 1 2 3 >i ㅁ
                 // ㅁ ㅁ ㅁ ㅁ ㅁ
                 // ㅁ ㅁ o> 4 5
                 // ㅁ ㅁ ㅁ ㅁ ㅁ
@@ -62,7 +62,7 @@ public class Algorithm : MonoBehaviour
                 // 5가 밀려서 범위에서 벗어남
 
                 // ㅁ ㅁ ㅁ ㅁ ㅁ
-                // X 1 2 i> ㅁ
+                // X 1 2 >i ㅁ
                 // ㅁ ㅁ ㅁ ㅁ ㅁ
                 // ㅁ ㅁ o> 3 4
                 // ㅁ ㅁ ㅁ ㅁ ㅁ
@@ -70,7 +70,7 @@ public class Algorithm : MonoBehaviour
                 // 5를 enter때문에 생긴 빈 공간 X에 5를 넣음
 
                 // ㅁ ㅁ ㅁ ㅁ ㅁ
-                // 5 1 2 i> ㅁ
+                // 5 1 2 >i ㅁ
                 // ㅁ ㅁ ㅁ ㅁ ㅁ
                 // ㅁ ㅁ o> 3 4
                 // ㅁ ㅁ ㅁ ㅁ ㅁ
@@ -79,7 +79,10 @@ public class Algorithm : MonoBehaviour
 
                 if (portal.enter_dir == Vector2.up)
                 {
+                    if (portal.enter_pos.y > cell_size.y - 1) // 아래에서 위로 포탈을 타는데 만약 enter의 아래가 cell의 끝이어서 없을때
+                    {
 
+                    }
                 }
                 if (portal.enter_dir == Vector2.down)
                 {
@@ -90,6 +93,23 @@ public class Algorithm : MonoBehaviour
 
                 }
                 if (portal.enter_dir == Vector2.right)
+                {
+
+                }
+
+                if (portal.exit_dir == Vector2.up)
+                {
+
+                }
+                if (portal.exit_dir == Vector2.down)
+                {
+
+                }
+                if (portal.exit_dir == Vector2.left)
+                {
+
+                }
+                if (portal.exit_dir == Vector2.right)
                 {
 
                 }
