@@ -7,6 +7,8 @@ public class Block : MonoBehaviour
     public int BlockValue;
     public bool isUnblock;
     public bool isPortal;
+    public bool isEnter = false;
+    public bool isExit = false;
     public int myBlockNumber;
     public Image img { get; set; }
     public Text BlockValueTxt { get; set; }
@@ -29,6 +31,11 @@ public class Block : MonoBehaviour
     {
         if (isPortal)
         {
+            if (isEnter)
+                img.color = new Color(0.1f, 0.3f, 0.5f);
+            if (isExit)
+                img.color = new Color(0.1f, 0.5f, 0.5f);
+
             if (isUnblock)
             {
                 isUnblock = false;
@@ -51,7 +58,7 @@ public class Block : MonoBehaviour
                 {
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
-                    Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0,0,-10),Quaternion.identity);
+                    Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0, -10), Quaternion.identity);
                 }
             }
 
@@ -223,7 +230,7 @@ public class Block : MonoBehaviour
     {
         if (GameManager.instance.isClick == true)
         {
-            if (BlockValue <= 0)
+            if (BlockValue == 0)
                 return;
             Vector2 LastAPosition = GameManager.instance.BlockPosition.Last().GetComponent<RectTransform>().anchoredPosition;
 
@@ -259,6 +266,7 @@ public class Block : MonoBehaviour
             }
             if (GameManager.instance.BlockPosition.Last() == gameObject)
             {
+                GameManager.instance.draging_callback(gameObject);
                 img.color = new Color(0.8f, 0.8f, 0.1f);
             }
         }

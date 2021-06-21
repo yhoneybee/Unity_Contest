@@ -24,9 +24,85 @@ public class Algorithm : MonoBehaviour
     {
         CellReset();
         GameManager.instance.drag_end_callback += OnDragEnd;
+        GameManager.instance.draging_callback += OnDraging;
         PortalCreate(new Vector2Int(2, 2), new Vector2Int(4, 0), true);
         //PortalCreate(new Vector2Int(4, 4), new Vector2Int(0, 4));
     }
+
+    IEnumerator CFlashing(List<Vector2Int> exit_near)
+    {
+        List<Block> near_blocks = new List<Block>();
+
+        foreach (var near in exit_near)
+            if (near.x >= 0 && near.x < cell_size.x && near.y >= 0 && near.y < cell_size.y)
+                near_blocks.Add(GameManager.instance.Blocks.Find((o) =>
+                {
+                    return o.GetComponent<Block>().myBlockNumber == near.y * cell_size.x + near.x;
+                })?.GetComponent<Block>());
+
+        foreach (var block in near_blocks)
+            block.img.color = new Color(block.img.color.r, block.img.color.g, block.img.color.b, 0);
+
+        while (true)
+        {
+            var linq = from near in near_blocks
+                       where near.gameObject == GameManager.instance.BlockPosition.Last()
+                       select near;
+
+            if (linq.Count() > 0)
+            {
+                foreach (var block in near_blocks)
+                    block.img.color = new Color(block.img.color.r, block.img.color.g, block.img.color.b, 1);
+                break;
+            }
+            else
+            {
+                for (int i = 0; i < near_blocks.Count; i++)
+                {
+                    if (near_blocks[i].img.color.a < 1)
+                    {
+                        near_blocks[i].img.color += new Color(0, 0, 0, 0.003921568627451f);
+                    }
+                    else
+                    {
+                        near_blocks[i].img.color = new Color(near_blocks[i].img.color.r, near_blocks[i].img.color.g, near_blocks[i].img.color.b, 0);
+                    }
+                    yield return null;
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    private void OnDraging(GameObject obj)
+    {
+        Block draged = obj.GetComponent<Block>();
+        if (draged.isPortal)
+        {
+            print("포탈을 드레그 중 입니다.");
+            foreach (var portal in portals)
+            {
+                if (portal.enter_pos.y * cell_size.x + portal.enter_pos.x == draged.myBlockNumber)
+                {
+                    print("포탈의 입구를 드레그 하였습니다. 출구로 이동합니다.");
+                    GameManager.instance.BlockPosition.Add(GameManager.instance.Blocks.Find((o) =>
+                    {
+                        StartCoroutine(CFlashing(new List<Vector2Int>
+                        {
+                            portal.exit_pos + new Vector2Int(1, 0),
+                            portal.exit_pos + new Vector2Int(-1, 0),
+                            portal.exit_pos + new Vector2Int(0, 1),
+                            portal.exit_pos + new Vector2Int(0, -1),
+                        }));
+                        return o.GetComponent<Block>().myBlockNumber == portal.exit_pos.y * cell_size.x + portal.exit_pos.x;
+                    }));
+                    return;
+                }
+            }
+        }
+    }
+
 
     // 드레그 끝나고 불리는 함수
     private void OnDragEnd()
@@ -35,85 +111,6 @@ public class Algorithm : MonoBehaviour
         {
             //이제 여기서 블럭을 linked list마냥 돌리는거 하면 됨
             CirculationClock(new Vector2Int(1, 1), new Vector2Int(3, 3));
-        }
-        if (portals.Count > 0)
-        {
-            foreach (var portal in portals)
-            {
-                int enter_list_num = portal.enter_pos.y * cell_size.x + portal.enter_pos.x;
-                int exit_list_num = portal.exit_pos.y * cell_size.x + portal.exit_pos.x;
-
-                GameObject enter_obj = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == enter_list_num; });
-                GameObject exit_obj = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == exit_list_num; });
-
-                // enter는 Vector.right 일경우에는 >이런 모양이기에
-                // enter 위치에서 왼쪽에 있는 모든 블럭을 enter 포탈 있곳까지로 오른쪽으로 한칸씩 옮기고 
-                // 포탈에 도달한 친구는 exit의 방향대로 벹어내는데 exit에서 벹어낼때에 한칸씩 벹어내는 방향으로 밀림
-                // 만약 cell의 범위 밖으로 나갔다면 enter를 위해 움직이고 비어있는 위치에 넣는다
-
-                // 포탈이 있음
-
-                // ㅁ ㅁ ㅁ ㅁ ㅁ
-                // 1 2 3 >i ㅁ
-                // ㅁ ㅁ ㅁ ㅁ ㅁ
-                // ㅁ ㅁ o> 4 5
-                // ㅁ ㅁ ㅁ ㅁ ㅁ
-
-                // 5가 밀려서 범위에서 벗어남
-
-                // ㅁ ㅁ ㅁ ㅁ ㅁ
-                // X 1 2 >i ㅁ
-                // ㅁ ㅁ ㅁ ㅁ ㅁ
-                // ㅁ ㅁ o> 3 4
-                // ㅁ ㅁ ㅁ ㅁ ㅁ
-
-                // 5를 enter때문에 생긴 빈 공간 X에 5를 넣음
-
-                // ㅁ ㅁ ㅁ ㅁ ㅁ
-                // 5 1 2 >i ㅁ
-                // ㅁ ㅁ ㅁ ㅁ ㅁ
-                // ㅁ ㅁ o> 3 4
-                // ㅁ ㅁ ㅁ ㅁ ㅁ
-
-                // 위에 과정을 반복하는 알고리즘을 만들기
-
-                if (portal.enter_dir == Vector2.up)
-                {
-                    if (portal.enter_pos.y > cell_size.y - 1) // 아래에서 위로 포탈을 타는데 만약 enter의 아래가 cell의 끝이어서 없을때
-                    {
-
-                    }
-                }
-                if (portal.enter_dir == Vector2.down)
-                {
-
-                }
-                if (portal.enter_dir == Vector2.left)
-                {
-
-                }
-                if (portal.enter_dir == Vector2.right)
-                {
-
-                }
-
-                if (portal.exit_dir == Vector2.up)
-                {
-
-                }
-                if (portal.exit_dir == Vector2.down)
-                {
-
-                }
-                if (portal.exit_dir == Vector2.left)
-                {
-
-                }
-                if (portal.exit_dir == Vector2.right)
-                {
-
-                }
-            }
         }
     }
     /// <summary>
@@ -178,9 +175,6 @@ public class Algorithm : MonoBehaviour
     {
         public Vector2Int enter_pos;
         public Vector2Int exit_pos;
-
-        public Vector2 enter_dir; // 들어가는 방향
-        public Vector2 exit_dir;  // 나오는 방향
     }
 
     public void PortalCreate(Vector2Int enter, Vector2Int exit, bool isRandomDir = false)
@@ -192,231 +186,18 @@ public class Algorithm : MonoBehaviour
         portal.enter_pos = enter;
         portal.exit_pos = exit;
 
-        if (isRandomDir)
-        {
-            if (enter.x == 0 || enter.y == 0)
-            {
-                if (enter.x == 0 && enter.y == 0)
-                {
-                    switch (Random.Range(0, 2))
-                    {
-                        case 0: portal.enter_dir = Vector2Int.up; break;
-                        case 1: portal.enter_dir = Vector2Int.left; break;
-                    }
-                }
-                else if (enter.x == 0)
-                {
-                    switch (Random.Range(0, 3))
-                    {
-                        case 0: portal.enter_dir = Vector2Int.up; break;
-                        case 1: portal.enter_dir = Vector2Int.left; break;
-                        case 2: portal.enter_dir = Vector2Int.down; break;
-                    }
-                    if (enter.y == cell_size.y - 1)
-                    {
-                        switch (Random.Range(0, 2))
-                        {
-                            case 0: portal.enter_dir = Vector2Int.down; break;
-                            case 1: portal.enter_dir = Vector2Int.left; break;
-                        }
-                    }
-                }
-                else if (enter.y == 0)
-                {
-                    switch (Random.Range(0, 3))
-                    {
-                        case 0: portal.enter_dir = Vector2Int.up; break;
-                        case 1: portal.enter_dir = Vector2Int.left; break;
-                        case 2: portal.enter_dir = Vector2Int.right; break;
-                    }
-                    if (enter.x == cell_size.x - 1)
-                    {
-                        switch (Random.Range(0, 2))
-                        {
-                            case 0: portal.enter_dir = Vector2Int.up; break;
-                            case 1: portal.enter_dir = Vector2Int.right; break;
-                        }
-                    }
-                }
-            }
-            else if (enter.x == cell_size.x - 1 || enter.y == cell_size.y - 1)
-            {
-                if (enter.x == cell_size.x - 1 && enter.y == cell_size.y - 1)
-                {
-                    switch (Random.Range(0, 2))
-                    {
-                        case 0: portal.enter_dir = Vector2Int.down; break;
-                        case 1: portal.enter_dir = Vector2Int.right; break;
-                    }
-                }
-                else if (enter.x == cell_size.x - 1)
-                {
-                    switch (Random.Range(0, 3))
-                    {
-                        case 0: portal.enter_dir = Vector2Int.up; break;
-                        case 1: portal.enter_dir = Vector2Int.right; break;
-                        case 2: portal.enter_dir = Vector2Int.down; break;
-                    }
-                }
-                else if (enter.y == cell_size.y - 1)
-                {
-                    switch (Random.Range(0, 3))
-                    {
-                        case 0: portal.enter_dir = Vector2Int.down; break;
-                        case 1: portal.enter_dir = Vector2Int.left; break;
-                        case 2: portal.enter_dir = Vector2Int.right; break;
-                    }
-                }
-            }
-            else
-            {
-                switch (Random.Range(0, 4))
-                {
-                    case 0: portal.enter_dir = Vector2Int.up; break;
-                    case 1: portal.enter_dir = Vector2Int.down; break;
-                    case 2: portal.enter_dir = Vector2Int.right; break;
-                    case 3: portal.enter_dir = Vector2Int.left; break;
-                }
-            }
-
-            if (exit.x == 0 || exit.y == 0)
-            {
-                if (exit.x == 0 && exit.y == 0)
-                {
-                    switch (Random.Range(0, 2))
-                    {
-                        case 0: portal.exit_dir = Vector2Int.down; break;
-                        case 1: portal.exit_dir = Vector2Int.right; break;
-                    }
-                }
-                else if (exit.x == 0)
-                {
-                    switch (Random.Range(0, 3))
-                    {
-                        case 0: portal.exit_dir = Vector2Int.up; break;
-                        case 1: portal.exit_dir = Vector2Int.right; break;
-                        case 2: portal.exit_dir = Vector2Int.down; break;
-                    }
-                    if (exit.y == cell_size.y - 1)
-                    {
-                        switch (Random.Range(0, 2))
-                        {
-                            case 0: portal.exit_dir = Vector2Int.up; break;
-                            case 1: portal.exit_dir = Vector2Int.right; break;
-                        }
-                    }
-                }
-                else if (exit.y == 0)
-                {
-                    switch (Random.Range(0, 3))
-                    {
-                        case 0: portal.exit_dir = Vector2Int.down; break;
-                        case 1: portal.exit_dir = Vector2Int.left; break;
-                        case 2: portal.exit_dir = Vector2Int.right; break;
-                    }
-                    if (exit.x == cell_size.x - 1)
-                    {
-                        switch (Random.Range(0, 2))
-                        {
-                            case 0: portal.exit_dir = Vector2Int.down; break;
-                            case 1: portal.exit_dir = Vector2Int.left; break;
-                        }
-                    }
-                }
-            }
-            else if (exit.x == cell_size.x - 1 || exit.y == cell_size.y - 1)
-            {
-                if (exit.x == cell_size.x - 1 && exit.y == cell_size.y - 1)
-                {
-                    switch (Random.Range(0, 2))
-                    {
-                        case 0: portal.exit_dir = Vector2Int.up; break;
-                        case 1: portal.exit_dir = Vector2Int.left; break;
-                    }
-                }
-                else if (exit.x == cell_size.x - 1)
-                {
-                    switch (Random.Range(0, 3))
-                    {
-                        case 0: portal.exit_dir = Vector2Int.up; break;
-                        case 1: portal.exit_dir = Vector2Int.left; break;
-                        case 2: portal.exit_dir = Vector2Int.down; break;
-                    }
-                }
-                else if (exit.y == cell_size.y - 1)
-                {
-                    switch (Random.Range(0, 3))
-                    {
-                        case 0: portal.exit_dir = Vector2Int.up; break;
-                        case 1: portal.exit_dir = Vector2Int.left; break;
-                        case 2: portal.exit_dir = Vector2Int.right; break;
-                    }
-                }
-            }
-            else
-            {
-                switch (Random.Range(0, 4))
-                {
-                    case 0: portal.exit_dir = Vector2Int.up; break;
-                    case 1: portal.exit_dir = Vector2Int.down; break;
-                    case 2: portal.exit_dir = Vector2Int.right; break;
-                    case 3: portal.exit_dir = Vector2Int.left; break;
-                }
-            }
-        }
-        else
-        {
-            if (enter.x == 0)
-            {
-                portal.enter_dir = Vector2Int.left;
-                portal.exit_dir = Vector2Int.left;
-            }
-            else
-            {
-                portal.enter_dir = Vector2Int.right;
-                portal.exit_dir = Vector2Int.right;
-            }
-        }
-
-        Debug.Log($"{portal.enter_dir} / {portal.exit_dir}");
-
         portals.Add(portal);
 
         Block block_enter = GameManager.instance.Blocks[enter.y * cell_size.x + enter.x].GetComponent<Block>();
         Block block_exit = GameManager.instance.Blocks[exit.y * cell_size.x + exit.x].GetComponent<Block>();
 
         block_enter.isPortal = true;
+        block_enter.isEnter = true;
         block_exit.isPortal = true;
+        block_exit.isExit = true;
 
-        if (portal.enter_dir.x != 0)
-        {
-            if (portal.enter_dir.x > 0)
-                block_enter.BlockValueTxt.text = "＞I";
-            else
-                block_enter.BlockValueTxt.text = "＜I";
-        }
-        else if (portal.enter_dir.y != 0)
-        {
-            if (portal.enter_dir.y > 0)
-                block_enter.BlockValueTxt.text = "∧I";
-            else
-                block_enter.BlockValueTxt.text = "∨I";
-        }
-
-        if (portal.exit_dir.x != 0)
-        {
-            if (portal.exit_dir.x > 0)
-                block_exit.BlockValueTxt.text = "O＞";
-            else
-                block_exit.BlockValueTxt.text = "O＜";
-        }
-        else if (portal.exit_dir.y != 0)
-        {
-            if (portal.exit_dir.y > 0)
-                block_exit.BlockValueTxt.text = "O∧";
-            else
-                block_exit.BlockValueTxt.text = "O∨";
-        }
+        block_enter.BlockValueTxt.text = "I";
+        block_exit.BlockValueTxt.text = "O";
 
         block_enter.BlockValue = -1;
         block_exit.BlockValue = -1;
@@ -430,11 +211,6 @@ public class Algorithm : MonoBehaviour
 
     public void Warp()
     {
-        foreach (var p in portals)
-        {
-            Block enter_target = GameManager.instance.Blocks[(int)(p.enter_pos.y + p.enter_dir.y * -1) * cell_size.x + (int)(p.enter_pos.x + p.enter_dir.x * -1)].GetComponent<Block>();
-            //행과 열 이동 구현후에 만들것. ex ) 2048의 밀리는 이동
-        }
     }
 
     void Update()

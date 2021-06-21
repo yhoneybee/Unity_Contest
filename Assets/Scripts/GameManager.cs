@@ -5,6 +5,8 @@ public class GameManager : MonoBehaviour
 {
     public delegate void CALLBACK();
     public CALLBACK drag_end_callback;
+    public delegate void CALLBACK_GAMEOBJECT(GameObject obj);
+    public CALLBACK_GAMEOBJECT draging_callback;
 
     public static GameManager instance;
     public List<GameObject> Blocks { get; set; } = new List<GameObject>();
@@ -32,6 +34,9 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        drag_end_callback = () => { };
+        draging_callback = (o) => { };
+
         Algorithm.Instance.Logic(logic_count);
         Algorithm.Instance.PrintCell();
 
