@@ -45,31 +45,36 @@ public class Algorithm : MonoBehaviour
 
         while (true)
         {
-            var linq = from near in near_blocks
-                       where near.gameObject == GameManager.instance.BlockPosition.Last()
-                       select near;
+            if (GameManager.instance.BlockPosition.Count > 0)
+            {
+                var linq = from near in near_blocks
+                           where near.gameObject == GameManager.instance.BlockPosition.Last()
+                           select near;
 
-            if (linq.Count() > 0)
-            {
-                foreach (var block in near_blocks)
-                    block.img.color = new Color(block.img.color.r, block.img.color.g, block.img.color.b, 1);
-                break;
-            }
-            else
-            {
-                for (int i = 0; i < near_blocks.Count; i++)
+                if (linq.Count() > 0)
                 {
-                    if (near_blocks[i].img.color.a < 1)
+                    foreach (var block in near_blocks)
+                        block.img.color = new Color(block.img.color.r, block.img.color.g, block.img.color.b, 1);
+                    break;
+                }
+                else
+                {
+                    for (int i = 0; i < near_blocks.Count; i++)
                     {
-                        near_blocks[i].img.color += new Color(0, 0, 0, 0.003921568627451f);
+                        if (near_blocks[i].img.color.a < 1)
+                        {
+                            near_blocks[i].img.color += new Color(0, 0, 0, 0.003921568627451f);
+                        }
+                        else
+                        {
+                            near_blocks[i].img.color = new Color(near_blocks[i].img.color.r, near_blocks[i].img.color.g, near_blocks[i].img.color.b, 0);
+                        }
+                        yield return null;
                     }
-                    else
-                    {
-                        near_blocks[i].img.color = new Color(near_blocks[i].img.color.r, near_blocks[i].img.color.g, near_blocks[i].img.color.b, 0);
-                    }
-                    yield return null;
                 }
             }
+            else
+                break;
 
             yield return null;
         }
