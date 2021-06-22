@@ -155,7 +155,6 @@ public class Block : MonoBehaviour
                     Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0, -10), Quaternion.identity);
                 }
             }
-
         }
         else
         {
