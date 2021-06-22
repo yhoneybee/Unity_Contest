@@ -25,7 +25,7 @@ public class Algorithm : MonoBehaviour
         CellReset();
         GameManager.instance.drag_end_callback += OnDragEnd;
         GameManager.instance.draging_callback += OnDraging;
-        PortalCreate(new Vector2Int(2, 2), new Vector2Int(4, 0), true);
+        PortalCreate(new Vector2Int(2, 2), new Vector2Int(4, 0));
         //PortalCreate(new Vector2Int(4, 4), new Vector2Int(0, 4));
     }
 
@@ -61,13 +61,12 @@ public class Algorithm : MonoBehaviour
                 {
                     for (int i = 0; i < near_blocks.Count; i++)
                     {
-                        if (near_blocks[i].img.color.a < 1)
+                        if (!near_blocks[i].GetComponent<Block>().isUnblock)
                         {
-                            near_blocks[i].img.color += new Color(0, 0, 0, 0.003921568627451f);
-                        }
-                        else
-                        {
-                            near_blocks[i].img.color = new Color(near_blocks[i].img.color.r, near_blocks[i].img.color.g, near_blocks[i].img.color.b, 0);
+                            if (near_blocks[i].img.color.a < 1)
+                                near_blocks[i].img.color += new Color(0, 0, 0, 0.003921568627451f);
+                            else
+                                near_blocks[i].img.color = new Color(near_blocks[i].img.color.r, near_blocks[i].img.color.g, near_blocks[i].img.color.b, 0);
                         }
                         yield return null;
                     }
@@ -182,7 +181,7 @@ public class Algorithm : MonoBehaviour
         public Vector2Int exit_pos;
     }
 
-    public void PortalCreate(Vector2Int enter, Vector2Int exit, bool isRandomDir = false)
+    public void PortalCreate(Vector2Int enter, Vector2Int exit)
     {
         Debug.Log($"{enter} / {exit}"); // (x, y)
 
