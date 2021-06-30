@@ -14,6 +14,8 @@ public class Algorithm : MonoBehaviour
 
     public List<Portal> portals = new List<Portal>();
 
+    public List<int> undo_block_value = new List<int>();
+
     int lastLogic;
 
     private void Awake()
@@ -22,11 +24,17 @@ public class Algorithm : MonoBehaviour
     }
     void Start()
     {
+        undo_block_value.Clear();
+
+        var linq = from block in GameManager.instance.Blocks
+                   select block.GetComponent<Block>().BlockValue;
+
+        undo_block_value.AddRange(linq);
         CellReset();
         GameManager.instance.drag_end_callback += OnDragEnd;
         GameManager.instance.draging_callback += OnDraging;
-        PortalCreate(new Vector2Int(2, 2), new Vector2Int(4, 0));
-        //PortalCreate(new Vector2Int(4, 4), new Vector2Int(0, 4));
+        PortalCreate(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)));
+        PortalCreate(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)));
     }
 
     IEnumerator CFlashing(List<Vector2Int> exit_near)
@@ -36,9 +44,8 @@ public class Algorithm : MonoBehaviour
         foreach (var near in exit_near)
             if (near.x >= 0 && near.x < cell_size.x && near.y >= 0 && near.y < cell_size.y)
                 near_blocks.Add(GameManager.instance.Blocks.Find((o) =>
-                {
-                    return o.GetComponent<Block>().myBlockNumber == near.y * cell_size.x + near.x;
-                })?.GetComponent<Block>());
+                { return o.GetComponent<Block>().myBlockNumber == near.y * cell_size.x + near.x; }
+                )?.GetComponent<Block>());
 
         foreach (var block in near_blocks)
             block.img.color = new Color(block.img.color.r, block.img.color.g, block.img.color.b, 0);
@@ -114,6 +121,7 @@ public class Algorithm : MonoBehaviour
         if (GameManager.instance.BlockPosition.Count > 1)
         {
             //이제 여기서 블럭을 linked list마냥 돌리는거 하면 됨
+            return;
             CirculationClock(new Vector2Int(1, 1), new Vector2Int(3, 3));
         }
     }
@@ -139,6 +147,13 @@ public class Algorithm : MonoBehaviour
             add = new Vector2Int(-1, -1);
         }
 
+        undo_block_value.Clear();
+
+        var linq = from block in GameManager.instance.Blocks
+                   select block.GetComponent<Block>().BlockValue;
+
+        undo_block_value.AddRange(linq);
+
         before = before.Distinct().ToList();
 
         int block_value = before[0].BlockValue;
@@ -153,7 +168,7 @@ public class Algorithm : MonoBehaviour
                     while (true)
                     {
                         next++;
-                        if (next >= 8) break;
+                        if (next >= before.Count) break;
                         if (before[next == before.Count - 1 ? 0 : next + 1].BlockValue != 0)
                         {
                             before[next == before.Count - 1 ? 0 : next + 1].BlockValue = before[i].BlockValue;
@@ -166,7 +181,7 @@ public class Algorithm : MonoBehaviour
             }
         }
 
-        for (int i = 1; i < 8; i++)
+        for (int i = 1; i < before.Count; i++)
             if (before[i].BlockValue != 0)
             {
                 if (block_value == 0) break;
@@ -217,9 +232,76 @@ public class Algorithm : MonoBehaviour
     {
     }
 
+
     void Update()
     {
+        foreach (var portal in portals)
+        {
+            List<Vector2Int> exit_v2i = new List<Vector2Int>();
+            List<Vector2Int> enter_v2i = new List<Vector2Int>();
+            List<Block> exit_near = new List<Block>();
+            List<Block> enter_near = new List<Block>();
 
+            exit_v2i.Add(portal.exit_pos + new Vector2Int(1, 0));
+            exit_v2i.Add(portal.exit_pos + new Vector2Int(-1, 0));
+            exit_v2i.Add(portal.exit_pos + new Vector2Int(0, 1));
+            exit_v2i.Add(portal.exit_pos + new Vector2Int(0, -1));
+
+            enter_v2i.Add(portal.enter_pos + new Vector2Int(1, 0));
+            enter_v2i.Add(portal.enter_pos + new Vector2Int(-1, 0));
+            enter_v2i.Add(portal.enter_pos + new Vector2Int(0, 1));
+            enter_v2i.Add(portal.enter_pos + new Vector2Int(0, -1));
+
+            foreach (var near in exit_v2i)
+                if (near.x >= 0 && near.x < cell_size.x && near.y >= 0 && near.y < cell_size.y)
+                    exit_near.Add(GameManager.instance.Blocks.Find((o) =>
+                    {
+                        return o.GetComponent<Block>().myBlockNumber == near.y * cell_size.x + near.x;
+                    }
+                    )?.GetComponent<Block>());
+
+            foreach (var near in enter_v2i)
+                if (near.x >= 0 && near.x < cell_size.x && near.y >= 0 && near.y < cell_size.y)
+                    enter_near.Add(GameManager.instance.Blocks.Find((o) =>
+                    {
+                        return o.GetComponent<Block>().myBlockNumber == near.y * cell_size.x + near.x;
+                    }
+                    )?.GetComponent<Block>());
+
+            var exit_q = from near in exit_near
+                         where near.isUnblock || near.BlockValue <= 0
+                         select near;
+
+            var enter_q = from near in enter_near
+                          where near.isUnblock || near.BlockValue <= 0
+                          select near;
+
+            if (enter_q.Count() == enter_near.Count)
+            {
+                Block block = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.enter_pos.y * cell_size.y + portal.enter_pos.x); })?.GetComponent<Block>();
+                block.isPortal = false;
+                block.BlockValue = 0;
+                portal.enter_pos = new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y));
+                block = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.enter_pos.y * cell_size.y + portal.enter_pos.x); })?.GetComponent<Block>();
+                block.BlockValueTxt.text = "I";
+                block.isPortal = true;
+                block.isEnter = true;
+                block.isExit = false;
+            }
+            if (exit_q.Count() == exit_near.Count)
+            {
+                Block block = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.exit_pos.y * cell_size.y + portal.exit_pos.x); })?.GetComponent<Block>();
+                block.isPortal = false;
+                block.BlockValue = 0;
+                portal.exit_pos = new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y));
+                block = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.exit_pos.y * cell_size.y + portal.exit_pos.x); })?.GetComponent<Block>();
+                block.BlockValueTxt.text = "O";
+                block.isPortal = true;
+                block.isEnter = false;
+                block.isExit = true;
+
+            }
+        }
     }
     /// <summary>
     /// 숫자 랜덤으로 만드는 함수
@@ -301,9 +383,22 @@ public class Algorithm : MonoBehaviour
 
     public void ReRoll()
     {
+        foreach (var portal in portals)
+        {
+            Block enter = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.enter_pos.y * cell_size.y + portal.enter_pos.x); })?.GetComponent<Block>();
+            Block exit = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.exit_pos.y * cell_size.y + portal.exit_pos.x); })?.GetComponent<Block>();
+
+            enter.isEnter = false;
+            exit.isExit = false;
+            enter.isPortal = false;
+            exit.isPortal = false;
+        }
+        portals.Clear();
         Logic(lastLogic);
         GameManager.instance.SetBlockValue();
         GameManager.instance.CreateUnBlock();
+        PortalCreate(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)));
+        PortalCreate(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)));
         GameManager.instance.ReRollCount = 0;
         GameManager.instance.Clear = false;
     }

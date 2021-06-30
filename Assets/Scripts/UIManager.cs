@@ -21,19 +21,46 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        DragText.text = "Drag Count : " + GameManager.instance.DragCount.ToString();
+        if (SceneManager.GetActiveScene().name == "Ingame")
+        {
+            DragText.text = "Drag Count : " + GameManager.instance.DragCount.ToString();
 
+            IngameClear();
+        }
+
+        else if (SceneManager.GetActiveScene().name == "Title")
+        {
+        }
+    }
+
+    private void IngameClear()
+    {
         if (GameManager.instance.Clear == true)
         {
             ClearUI.SetActive(true);
-            //if (ClearUISize < 1)
-                //ClearUISize += 0.1f;
-            //rect.localScale = new Vector3(ClearUISize, ClearUISize, 1);
         }
         else
         {
             ClearUI.SetActive(false);
         }
+    }
+
+    public void PlayButton()
+    {
+        SceneManager.LoadScene("ModeSelect");
+    }
+
+    public void OptionButton()
+    {
+    }
+
+    public void RankingButton()
+    {
+    }
+
+    public void TitleButton()
+    {
+        SceneManager.LoadScene("Title");
     }
 
     public void ResetButton()

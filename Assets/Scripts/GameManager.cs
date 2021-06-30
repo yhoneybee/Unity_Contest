@@ -93,6 +93,8 @@ public class GameManager : MonoBehaviour
         if (UndoList.Count != 0)
         {
             Debug.Log(UndoList.Count);
+            for (int i = 0; i < cell_size_xy; i++)
+                Blocks[i].GetComponent<Block>().BlockValue = Algorithm.Instance.undo_block_value[i];
             foreach (var GameObj in UndoList)
             {
                 GameObj.GetComponent<Block>().BlockValue++;
