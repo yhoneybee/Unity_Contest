@@ -2920,13 +2920,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UndoList: []
   ExplosionPrefab: {fileID: 9049409604948515420, guid: eeb211119776f414fa42d7e79ef24da8, type: 3}
-  logic_count: 25
+  logic_count: 10
   isClick: 0
   SameBlock: 0
   cell_size_xy: 0
   Unblocks: 0
   ReRollCount: 0
   Clear: 0
+  Portal: 0
+  Turn: 1
+  Ex: 0
 --- !u!4 &1186139252
 Transform:
   m_ObjectHideFlags: 0

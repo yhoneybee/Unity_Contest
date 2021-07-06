@@ -33,8 +33,11 @@ public class Algorithm : MonoBehaviour
         CellReset();
         GameManager.instance.drag_end_callback += OnDragEnd;
         GameManager.instance.draging_callback += OnDraging;
-        PortalCreate(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)));
-        PortalCreate(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)));
+        if (DonDestroy.instance.ModeSelect == 2)
+        {
+            PortalCreate(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)));
+            PortalCreate(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)));
+        }
     }
 
     IEnumerator CFlashing(List<Vector2Int> exit_near)
@@ -118,11 +121,13 @@ public class Algorithm : MonoBehaviour
     // 드레그 끝나고 불리는 함수
     private void OnDragEnd()
     {
-        if (GameManager.instance.BlockPosition.Count > 1)
+        if (DonDestroy.instance.ModeSelect==3)
         {
-            //이제 여기서 블럭을 linked list마냥 돌리는거 하면 됨
-            return;
-            CirculationClock(new Vector2Int(1, 1), new Vector2Int(3, 3));
+            if (GameManager.instance.BlockPosition.Count > 1)
+            {
+                //이제 여기서 블럭을 linked list마냥 돌리는거 하면 됨
+                CirculationClock(new Vector2Int(1, 1), new Vector2Int(3, 3));
+            }
         }
     }
     /// <summary>
@@ -383,22 +388,27 @@ public class Algorithm : MonoBehaviour
 
     public void ReRoll()
     {
-        foreach (var portal in portals)
+        if (DonDestroy.instance.ModeSelect == 2)
         {
-            Block enter = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.enter_pos.y * cell_size.y + portal.enter_pos.x); })?.GetComponent<Block>();
-            Block exit = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.exit_pos.y * cell_size.y + portal.exit_pos.x); })?.GetComponent<Block>();
+            foreach (var portal in portals)
+            {
+                Block enter = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.enter_pos.y * cell_size.y + portal.enter_pos.x); })?.GetComponent<Block>();
+                Block exit = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.exit_pos.y * cell_size.y + portal.exit_pos.x); })?.GetComponent<Block>();
 
-            enter.isEnter = false;
-            exit.isExit = false;
-            enter.isPortal = false;
-            exit.isPortal = false;
+                enter.isEnter = false;
+                exit.isExit = false;
+                enter.isPortal = false;
+                exit.isPortal = false;
+            }
+            portals.Clear();
+            
+            PortalCreate(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)));
+            PortalCreate(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)));
         }
-        portals.Clear();
         Logic(lastLogic);
         GameManager.instance.SetBlockValue();
-        GameManager.instance.CreateUnBlock();
-        PortalCreate(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)));
-        PortalCreate(new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)), new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y)));
+        if (DonDestroy.instance.ModeSelect == 1)
+            GameManager.instance.CreateUnBlock();
         GameManager.instance.ReRollCount = 0;
         GameManager.instance.Clear = false;
     }

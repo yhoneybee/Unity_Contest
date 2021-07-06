@@ -229,7 +229,7 @@ public class Block : MonoBehaviour
     {
         if (GameManager.instance.isClick == true)
         {
-            if (BlockValue == 0)
+            if (BlockValue == 0|| isExit==true)
                 return;
             Vector2 LastAPosition = GameManager.instance.BlockPosition.Last().GetComponent<RectTransform>().anchoredPosition;
 

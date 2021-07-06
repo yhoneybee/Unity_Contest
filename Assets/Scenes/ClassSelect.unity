@@ -373,6 +373,7 @@ GameObject:
   - component: {fileID: 1172921874}
   - component: {fileID: 1172921873}
   - component: {fileID: 1172921872}
+  - component: {fileID: 1172921876}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -466,6 +467,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1172921876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172921871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e952a769a800b5745a47b4faf33f4693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DragText: {fileID: 0}
+  ClearUI: {fileID: 0}
 --- !u!1 &1209481262
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,7 +563,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1209481265}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1172921876}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ReturnModeSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1209481265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -748,7 +775,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1382644780}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1172921876}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: Turn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1382644780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -948,7 +987,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1603228136}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1172921876}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: Portal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1603228136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1391,7 +1442,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2030263019}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1172921876}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: EX
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2030263019
 MonoBehaviour:
   m_ObjectHideFlags: 0

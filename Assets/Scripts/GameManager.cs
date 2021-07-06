@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviour
         Algorithm.Instance.CellReset();
 
         cell_size_xy = Algorithm.Instance.cell_size.x * Algorithm.Instance.cell_size.y;
-
-        CreateUnBlock();
+        if (DonDestroy.instance.ModeSelect == 1)
+            CreateUnBlock();
 
         for (int i = 0; i < cell_size_xy; i++)
         {
@@ -93,8 +93,9 @@ public class GameManager : MonoBehaviour
         if (UndoList.Count != 0)
         {
             Debug.Log(UndoList.Count);
-            for (int i = 0; i < cell_size_xy; i++)
-                Blocks[i].GetComponent<Block>().BlockValue = Algorithm.Instance.undo_block_value[i];
+            if (DonDestroy.instance.ModeSelect == 3)
+                for (int i = 0; i < cell_size_xy; i++)
+                    Blocks[i].GetComponent<Block>().BlockValue = Algorithm.Instance.undo_block_value[i];
             foreach (var GameObj in UndoList)
             {
                 GameObj.GetComponent<Block>().BlockValue++;
