@@ -16,6 +16,7 @@ public class Block : MonoBehaviour
 
     private void Awake()
     {
+        GameManager.instance.Blocks.Add(gameObject);
         img = GetComponent<Image>();
         rt = GetComponent<RectTransform>();
         BlockValueTxt = GetComponentInChildren<Text>();
@@ -23,18 +24,24 @@ public class Block : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.Blocks.Add(gameObject);
-        BlockValueTxt.text = BlockValue.ToString();
     }
 
     void Update()
     {
+        BlockValueTxt.text = BlockValue.ToString();
+
         if (isPortal)
         {
             if (isEnter)
+            {
                 img.color = new Color(0f, 0.4f, 1f);
+                BlockValueTxt.text = "I";
+            }
             if (isExit)
+            {
                 img.color = new Color(0.9f, 0.2f, 0.7f);
+                BlockValueTxt.text = "O";
+            }
 
             if (isUnblock)
             {

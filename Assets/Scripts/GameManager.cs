@@ -37,23 +37,28 @@ public class GameManager : MonoBehaviour
         drag_end_callback = () => { };
         draging_callback = (o) => { };
 
+        cell_size_xy = Algorithm.Instance.cell_size.x * Algorithm.Instance.cell_size.y;
+
+        for (int i = 0; i < cell_size_xy; i++)
+        {
+            GameObject temp = Instantiate(Resources.Load<GameObject>("Block"));
+            temp.name = $"{i + 1}";
+            temp.transform.SetParent(GameObject.Find("Plate").transform);
+            temp.transform.localScale = Vector3.one;
+            temp.GetComponent<Block>().myBlockNumber = i;
+        }
+
+        //Blocks.Sort((o1, o2) => o1.GetComponent<Block>().myBlockNumber.CompareTo(o2.GetComponent<Block>().myBlockNumber));
+
         Algorithm.Instance.Logic(logic_count);
         Algorithm.Instance.PrintCell();
-
-        Blocks.Sort((o1, o2) => int.Parse(o1.name).CompareTo(int.Parse(o2.name)));
 
         SetBlockValue();
 
         Algorithm.Instance.CellReset();
 
-        cell_size_xy = Algorithm.Instance.cell_size.x * Algorithm.Instance.cell_size.y;
         if (DonDestroy.instance.ModeSelect == 1)
             CreateUnBlock();
-
-        for (int i = 0; i < cell_size_xy; i++)
-        {
-            Blocks[i].GetComponent<Block>().myBlockNumber = i;
-        }
     }
 
     public void SetBlockValue()
