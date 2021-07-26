@@ -233,11 +233,6 @@ public class Algorithm : MonoBehaviour
         block_exit.img.color = new Color(0.1f, 0.5f, 0.5f);
     }
 
-    public void Warp()
-    {
-    }
-
-
     void Update()
     {
         foreach (var portal in portals)

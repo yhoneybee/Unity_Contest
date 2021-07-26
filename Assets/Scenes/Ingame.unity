@@ -871,7 +871,7 @@ GameObject:
   - component: {fileID: 866663828}
   - component: {fileID: 866663827}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: BlockValue2Zero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -940,7 +940,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 866663828}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1186139251}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: SwitchSetZeroBool
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &866663828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1482,6 +1494,8 @@ MonoBehaviour:
   Unblocks: 0
   ReRollCount: 0
   Clear: 0
+  block2zero: 0
+  block2zero_count: 1
 --- !u!4 &1186139252
 Transform:
   m_ObjectHideFlags: 0
@@ -1825,7 +1839,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: function3
+  m_Text: Zero
 --- !u!222 &1471049831
 CanvasRenderer:
   m_ObjectHideFlags: 0

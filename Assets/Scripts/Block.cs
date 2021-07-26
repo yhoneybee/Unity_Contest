@@ -222,6 +222,7 @@ public class Block : MonoBehaviour
     public void PointerDown()
     {
         GameManager.instance.UndoList.Clear();
+        GameManager.instance.SetBlockZero(this);
         if (BlockValue > 0)
         {
             GameManager.instance.isClick = true;

@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
     public bool Clear;
     public int DragCount { get; set; }
 
+    public bool block2zero = false;
+    public int block2zero_count = 1;
+
     void Awake()
     {
         instance = this;
@@ -143,6 +146,31 @@ public class GameManager : MonoBehaviour
                 i++;
                 Debug.Log("isUnBlock");
             }
+        }
+    }
+
+    public void SwitchSetZeroBool()
+    {
+        if (block2zero_count > 0)
+            block2zero = !block2zero;
+        Text text = GameObject.Find("BlockValue2Zero").transform.GetChild(0).GetComponent<Text>();
+        if (block2zero)
+            text.color = Color.yellow;
+        else
+            text.color = Color.white;
+    }
+
+    public void SetBlockZero(Block block)
+    {
+        if (block2zero && block2zero_count > 0)
+        {
+            if (block.isPortal || block.BlockValue <= 0) return;
+
+            --block2zero_count; block2zero = false;
+
+            GameObject.Find("BlockValue2Zero").transform.GetChild(0).GetComponent<Text>().color = Color.white;
+
+            block.BlockValue = 0;
         }
     }
 }
