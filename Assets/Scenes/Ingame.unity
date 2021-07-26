@@ -2344,7 +2344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50264921a032010409ae1d10c4d102b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cell_size: {x: 5, y: 5}
+  cell_size: {x: 3, y: 3}
   undo_block_value: 
 --- !u!4 &1875661412
 Transform:

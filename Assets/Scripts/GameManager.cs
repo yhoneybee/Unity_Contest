@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class GameManager : MonoBehaviour
     public List<GameObject> TempBlockList { get; set; } = new List<GameObject>();
     private List<int> Test = new List<int>();
     public GameObject ExplosionPrefab;
+
+    public Block[,] ingame_block;
 
     [Header("로직 부를 횟수")]
     public int logic_count = 25;
@@ -39,13 +42,24 @@ public class GameManager : MonoBehaviour
 
         cell_size_xy = Algorithm.Instance.cell_size.x * Algorithm.Instance.cell_size.y;
 
-        for (int i = 0; i < cell_size_xy; i++)
+        ingame_block = new Block[Algorithm.Instance.cell_size.x, Algorithm.Instance.cell_size.y];
+
+        Transform plate = GameObject.Find("Plate").transform;
+        plate.GetComponent<GridLayoutGroup>().constraintCount = Algorithm.Instance.cell_size.x;
+        Block block_temp = null;
+
+        for (int y = 0; y < Algorithm.Instance.cell_size.y; y++)
         {
-            GameObject temp = Instantiate(Resources.Load<GameObject>("Block"));
-            temp.name = $"{i + 1}";
-            temp.transform.SetParent(GameObject.Find("Plate").transform);
-            temp.transform.localScale = Vector3.one;
-            temp.GetComponent<Block>().myBlockNumber = i;
+            for (int x = 0; x < Algorithm.Instance.cell_size.x; x++)
+            {
+                GameObject temp = Instantiate(Resources.Load<GameObject>("Block"));
+                temp.name = $"{x + Algorithm.Instance.cell_size.x * y}";
+                temp.transform.SetParent(plate);
+                temp.transform.localScale = Vector3.one;
+                block_temp = temp.GetComponent<Block>();
+                block_temp.myBlockNumber = x + Algorithm.Instance.cell_size.x * y;
+                ingame_block[x, y] = block_temp;
+            }
         }
 
         //Blocks.Sort((o1, o2) => o1.GetComponent<Block>().myBlockNumber.CompareTo(o2.GetComponent<Block>().myBlockNumber));

@@ -240,8 +240,13 @@ public class Block : MonoBehaviour
                 return;
             Vector2 LastAPosition = GameManager.instance.BlockPosition.Last().GetComponent<RectTransform>().anchoredPosition;
 
-            if (Mathf.Abs(LastAPosition.x - gameObject.GetComponent<RectTransform>().anchoredPosition.x) > 60
-                || Mathf.Abs(LastAPosition.y - gameObject.GetComponent<RectTransform>().anchoredPosition.y) > 60)
+            float x = Mathf.Abs(GameManager.instance.ingame_block[1, 0].GetComponent<RectTransform>().anchoredPosition.x - GameManager.instance.ingame_block[0, 0].GetComponent<RectTransform>().anchoredPosition.x);
+            float y = Mathf.Abs(GameManager.instance.ingame_block[0, 1].GetComponent<RectTransform>().anchoredPosition.y - GameManager.instance.ingame_block[0, 0].GetComponent<RectTransform>().anchoredPosition.y);
+
+            print($"{x},{y}");
+
+            if (Mathf.Abs(LastAPosition.x - gameObject.GetComponent<RectTransform>().anchoredPosition.x) > x
+                || Mathf.Abs(LastAPosition.y - gameObject.GetComponent<RectTransform>().anchoredPosition.y) > y)
             {
                 return;
             }
