@@ -10,6 +10,10 @@ public class UIManager : MonoBehaviour
     Text DragText;
     [SerializeField]
     GameObject ClearUI;
+    [SerializeField]
+    GameObject OptionPannel;
+    [SerializeField]
+    GameObject MenuPannel;
 
     RectTransform rect;
 
@@ -52,6 +56,11 @@ public class UIManager : MonoBehaviour
 
     public void OptionButton()
     {
+        OptionPannel.SetActive(true);
+    }   
+    public void OptionButtonExit()
+    {
+        OptionPannel.SetActive(false);
     }
 
     public void RankingButton()
@@ -68,12 +77,7 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("StageSelect");
     }
 
-    public void Class()
-    {
-        SceneManager.LoadScene("ClassSelect");
-    }
-
-    public void ReturnModeSelect()
+    public void ModeSelect()
     {
         SceneManager.LoadScene("ModeSelect");
     }
@@ -97,5 +101,21 @@ public class UIManager : MonoBehaviour
     {
         DonDestroy.instance.ModeSelect = 3;
         ResetButton();
+    }
+
+    public void OpenMenu()
+    {
+        MenuPannel.SetActive(true);
+    }
+    
+    public void CloseMenu()
+    {
+        MenuPannel.SetActive(false);
+    }
+
+    public void Restart()
+    {
+        Algorithm.Instance.ReRoll();
+        MenuPannel.SetActive(false);
     }
 }
