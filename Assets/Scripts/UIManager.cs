@@ -9,6 +9,10 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     Text DragText;
     [SerializeField]
+    Text ScoreText;
+    [SerializeField]
+    Text BestScoreText;
+    [SerializeField]
     GameObject ClearUI;
     [SerializeField]
     GameObject OptionPannel;
@@ -21,6 +25,12 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         rect = GetComponent<RectTransform>();
+
+        if (SceneManager.GetActiveScene().name == "Title")
+        {
+            SaveObject.instance.LoadData();
+            BestScoreText.text = SaveObject.instance.Score.ToString();
+        }
     }
 
     void Update()
@@ -28,12 +38,9 @@ public class UIManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Ingame")
         {
             DragText.text = "Drag Count : " + GameManager.instance.DragCount.ToString();
+            ScoreText.text = "Score : " + GameManager.instance.Score.ToString();
 
             IngameClear();
-        }
-
-        else if (SceneManager.GetActiveScene().name == "Title")
-        {
         }
     }
 
@@ -42,6 +49,7 @@ public class UIManager : MonoBehaviour
         if (GameManager.instance.Clear == true)
         {
             ClearUI.SetActive(true);
+            SaveObject.instance.SaveData();// 점수 저장
         }
         else
         {

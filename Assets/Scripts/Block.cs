@@ -204,6 +204,11 @@ public class Block : MonoBehaviour
                         if (GameObj.GetComponent<Block>().BlockValue > 0)
                         {
                             GameObj.GetComponent<Block>().BlockValue--;
+                            if (GameObj.GetComponent<Block>().BlockValue > 0)
+                                GameManager.instance.Score += 5; // 드래그 블럭당 스코어
+                            else
+                                GameManager.instance.Score += 15; // 0으로 만드는 스코어
+
                         }
                     }
                 }
@@ -237,7 +242,7 @@ public class Block : MonoBehaviour
     {
         if (GameManager.instance.isClick == true)
         {
-            if (BlockValue == 0|| isExit==true)
+            if (BlockValue == 0 || isExit == true)
                 return;
             Vector2 LastAPosition = GameManager.instance.BlockPosition.Last().GetComponent<RectTransform>().anchoredPosition;
 

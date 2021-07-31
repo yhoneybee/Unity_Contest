@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public CALLBACK drag_end_callback;
     public delegate void CALLBACK_GAMEOBJECT(GameObject obj);
     public CALLBACK_GAMEOBJECT draging_callback;
+    public int Score;
 
     public static GameManager instance;
     public List<GameObject> Blocks { get; set; } = new List<GameObject>();
