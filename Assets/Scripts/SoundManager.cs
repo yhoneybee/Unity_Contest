@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public enum SoundType
 {
@@ -18,27 +20,92 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
-        GameObject sound = GameObject.Find("SoundManager");
-
-        if (!sound)
+        if (Instance == null)
         {
-            name = "SoundManager";
-            DontDestroyOnLoad(gameObject);
+            Instance = this;
 
-            string[] soundNames = System.Enum.GetNames(typeof(SoundType));
+            GameObject sound = GameObject.Find("SoundManager");
 
-            for (int i = 0; i < soundNames.Length - 1; i++)
+            if (sound)
             {
-                GameObject go = new GameObject { name = soundNames[i] };
-                audioSources[i] = go.AddComponent<AudioSource>();
-                go.transform.SetParent(sound.transform);
-            }
+                name = "SoundManager";
+                DontDestroyOnLoad(gameObject);
 
-            audioSources[(int)SoundType.BGM].loop = true;
+                string[] soundNames = Enum.GetNames(typeof(SoundType));
+
+                for (int i = 0; i < soundNames.Length - 1; i++)
+                {
+                    GameObject go = new GameObject { name = soundNames[i] };
+                    audioSources[i] = go.AddComponent<AudioSource>();
+                    go.transform.SetParent(sound.transform);
+                }
+
+                audioSources[(int)SoundType.BGM].loop = true;
+            }
         }
     }
 
+    public void StopAllSound()
+    {
+        foreach (var item in audioSources)
+        {
+            item.clip = null;
+            item.Stop();
+        }
 
+        audioClips.Clear();
+    }
+
+    public void Play(AudioClip audioClip, SoundType soundType = SoundType.EFFECT, float pitch = 1.0f)
+    {
+        if (!audioClip)
+            return;
+
+        AudioSource audioSource;
+
+        if (soundType == SoundType.BGM)
+        {
+            audioSource = audioSources[(int)SoundType.BGM];
+            if (audioSource.isPlaying)
+                audioSource.Stop();
+
+            audioSource.pitch = pitch;
+            audioSource.clip = audioClip;
+            audioSource.Play();
+        }
+        else
+        {
+            audioSource = audioSources[(int)SoundType.EFFECT];
+            audioSource.pitch = pitch;
+            audioSource.PlayOneShot(audioClip);
+        }
+    }
+
+    public void Play(string path, SoundType soundType = SoundType.EFFECT, float pitch = 1.0f) => Play(GetOrAddAudioClip(path, soundType), soundType, pitch);
+
+    AudioClip GetOrAddAudioClip(string path, SoundType soundType)
+    {
+        if (path.Contains("Sounds/") == false)
+            path = $"Sounds/{path}";
+
+        AudioClip audioClip = null;
+
+        if (soundType == SoundType.BGM)
+        {
+            audioClip = Resources.Load<AudioClip>(path);
+        }
+        else
+        {
+            if (audioClips.TryGetValue(path, out audioClip) == false)
+            {
+                audioClip = Resources.Load<AudioClip>(path);
+                audioClips.Add(path, audioClip);
+            }
+        }
+
+        if (!audioClip)
+            Debug.LogWarning($"AudioClip Missing!, path info : {path}");
+
+        return audioClip;
+    }
 }
