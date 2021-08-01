@@ -11,6 +11,8 @@ public class BlockReroll : MonoBehaviour
     }
     public void Reroll()
     {
+        SoundManager.Instance.Play("SkillClick");
+
         if (GameManager.instance.ReRollCount < 3)
         {
             List<int> TempValue = new List<int>();

@@ -63,6 +63,7 @@ public class Block : MonoBehaviour
                 if (GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue <= 0 &&
                  GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
+                    SoundManager.Instance.Play("ExplosionEffect");
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                     Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0.4f, -10), Quaternion.identity);
@@ -74,6 +75,7 @@ public class Block : MonoBehaviour
                 if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue <= 0 &&
                  GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
+                    SoundManager.Instance.Play("ExplosionEffect");
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                     Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0.4f, -10), Quaternion.identity);
@@ -85,6 +87,7 @@ public class Block : MonoBehaviour
                 if (GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue <= 0 &&
                  GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
+                    SoundManager.Instance.Play("ExplosionEffect");
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                     Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0.4f, -10), Quaternion.identity);
@@ -96,6 +99,7 @@ public class Block : MonoBehaviour
                 if (GameManager.instance.Blocks[myBlockNumber - 1].GetComponent<Block>().BlockValue <= 0 &&
                  GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
+                    SoundManager.Instance.Play("ExplosionEffect");
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                     Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0.4f, -10), Quaternion.identity);
@@ -108,6 +112,7 @@ public class Block : MonoBehaviour
                      GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0 &&
                      GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
+                    SoundManager.Instance.Play("ExplosionEffect");
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                     Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0.4f, -10), Quaternion.identity);
@@ -120,6 +125,7 @@ public class Block : MonoBehaviour
                      GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0 &&
                      GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
+                    SoundManager.Instance.Play("ExplosionEffect");
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                     Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0.4f, -10), Quaternion.identity);
@@ -132,6 +138,7 @@ public class Block : MonoBehaviour
                     GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue <= 0 &&
                     GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
+                    SoundManager.Instance.Play("ExplosionEffect");
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                     Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0.4f, -10), Quaternion.identity);
@@ -144,6 +151,7 @@ public class Block : MonoBehaviour
                     GameManager.instance.Blocks[myBlockNumber + 1].GetComponent<Block>().BlockValue <= 0 &&
                     GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
+                    SoundManager.Instance.Play("ExplosionEffect");
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                     Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0.4f, -10), Quaternion.identity);
@@ -157,6 +165,7 @@ public class Block : MonoBehaviour
                     GameManager.instance.Blocks[myBlockNumber + Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0 &&
                     GameManager.instance.Blocks[myBlockNumber - Algorithm.Instance.cell_size.x].GetComponent<Block>().BlockValue <= 0)
                 {
+                    SoundManager.Instance.Play("ExplosionEffect");
                     isUnblock = false;
                     img.color = new Color(0.8f, 0.4f, 0.8f);
                     Instantiate(GameManager.instance.ExplosionPrefab, transform.position + new Vector3(0, 0.4f, -10), Quaternion.identity);
@@ -221,7 +230,10 @@ public class Block : MonoBehaviour
             GameManager.instance.drag_end_callback();
 
             GameManager.instance.BlockPosition.Clear();
+
+            SoundManager.Instance.Play("DragEndEffect");
         }
+
     }
 
     public void PointerDown()
@@ -279,6 +291,7 @@ public class Block : MonoBehaviour
             {
                 GameManager.instance.BlockPosition.Add(gameObject);
                 GameManager.instance.UndoList.Add(gameObject);
+                SoundManager.Instance.Play("DragEffect");
                 img.color = new Color(0.9f, 0.9f, 0.9f);
             }
             if (GameManager.instance.BlockPosition.Last() == gameObject)

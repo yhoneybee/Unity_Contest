@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     public int cell_size_xy;
     public int Unblocks;
     public sbyte ReRollCount;
-    public bool Clear;
+    public bool Clear { get; set; }
     public int DragCount { get; set; }
 
     public bool block2zero = false;
@@ -113,6 +113,8 @@ public class GameManager : MonoBehaviour
 
     public void Undo()
     {
+        SoundManager.Instance.Play("SkillClick");
+
         if (UndoList.Count != 0)
         {
             Debug.Log(UndoList.Count);
@@ -152,6 +154,8 @@ public class GameManager : MonoBehaviour
 
     public void SwitchSetZeroBool()
     {
+        SoundManager.Instance.Play("SkillClick");
+
         if (block2zero_count > 0)
             block2zero = !block2zero;
         Text text = GameObject.Find("BlockValue2Zero").transform.GetChild(0).GetComponent<Text>();

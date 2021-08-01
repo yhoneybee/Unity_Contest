@@ -100,6 +100,7 @@ public class Algorithm : MonoBehaviour
                 if (portal.enter_pos.y * cell_size.x + portal.enter_pos.x == draged.myBlockNumber)
                 {
                     print("포탈의 입구를 드레그 하였습니다. 출구로 이동합니다.");
+                    SoundManager.Instance.Play("PortalinEffect");
                     GameManager.instance.BlockPosition.Add(GameManager.instance.Blocks.Find((o) =>
                     {
                         StartCoroutine(CFlashing(new List<Vector2Int>
@@ -127,6 +128,7 @@ public class Algorithm : MonoBehaviour
             {
                 //이제 여기서 블럭을 linked list마냥 돌리는거 하면 됨
                 CirculationClock(new Vector2Int(1, 1), new Vector2Int(3, 3));
+                SoundManager.Instance.Play("RotateEffect");
             }
         }
     }
