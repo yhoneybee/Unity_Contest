@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject OptionPannel;
     [SerializeField]
+    GameObject RankingPannel;
+    [SerializeField]
     GameObject MenuPannel;
 
     RectTransform rect;
@@ -73,6 +75,12 @@ public class UIManager : MonoBehaviour
 
     public void RankingButton()
     {
+        RankingPannel.SetActive(true);
+    }
+
+    public void RankingExitButton()
+    {
+        RankingPannel.SetActive(false);
     }
 
     public void TitleButton()
