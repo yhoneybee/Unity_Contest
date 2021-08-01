@@ -731,6 +731,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DragText: {fileID: 1620633738}
   ScoreText: {fileID: 1217000813}
+  BestScoreText: {fileID: 0}
   ClearUI: {fileID: 1315048609}
   OptionPannel: {fileID: 250761503}
   MenuPannel: {fileID: 225657897}
@@ -2713,7 +2714,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1315048610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2761,7 +2762,7 @@ RectTransform:
   m_GameObject: {fileID: 1315048609}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children:
   - {fileID: 451517277}
   - {fileID: 1746079274}

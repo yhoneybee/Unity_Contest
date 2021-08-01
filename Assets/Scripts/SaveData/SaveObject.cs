@@ -39,6 +39,15 @@ public class SaveObject : MonoBehaviour
     public void LoadData()
     {
         SaveData save = SaveManager.Load();
+        if(save==null)
+        {
+            Score = 0;
+            SaveData save2 = new SaveData();
+            save2.Score = Score;
+            SaveManager.Save(save2);
+            Debug.Log($"[save]{save}");
+            return;
+        }
         Score = save.Score;
 
         Debug.Log($"{save}");
