@@ -8,6 +8,7 @@ public class Algorithm : MonoBehaviour
 {
     public static Algorithm Instance { get; set; }
 
+    // 이거만 바꾸면 GameManager가 실행될때에 알아서 됨
     public Vector2Int cell_size;
 
     public List<List<int>> cell = new List<List<int>>();
@@ -24,6 +25,8 @@ public class Algorithm : MonoBehaviour
     }
     void Start()
     {
+        cell_size = DonDestroy.instance.cell_size;
+
         undo_block_value.Clear();
 
         var linq = from block in GameManager.instance.Blocks

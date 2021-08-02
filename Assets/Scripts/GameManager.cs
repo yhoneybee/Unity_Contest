@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        Algorithm.Instance.cell_size = DonDestroy.instance.cell_size;
+
         drag_end_callback = () => { };
         draging_callback = (o) => { };
 
@@ -49,6 +51,8 @@ public class GameManager : MonoBehaviour
         ingame_block = new Block[Algorithm.Instance.cell_size.x, Algorithm.Instance.cell_size.y];
 
         Transform plate = GameObject.Find("Plate").transform;
+        float val = 10.0f / Algorithm.Instance.cell_size.x * 25.0f;
+        plate.GetComponent<GridLayoutGroup>().cellSize = new Vector2(val, val);
         plate.GetComponent<GridLayoutGroup>().constraintCount = Algorithm.Instance.cell_size.x;
         Block block_temp = null;
 
