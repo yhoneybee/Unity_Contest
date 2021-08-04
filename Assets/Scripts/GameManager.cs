@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     public int DragCount { get; set; }
 
     public bool block2zero = false;
-    public int block2zero_count = 1;
+    public int block2zero_count = 3;
 
     void Awake()
     {

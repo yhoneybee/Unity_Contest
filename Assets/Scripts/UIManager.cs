@@ -158,6 +158,8 @@ public class UIManager : MonoBehaviour
     {
         SoundManager.Instance.Play("UIClick");
         Algorithm.Instance.ReRoll();
+        GameManager.instance.Score = 0;
+        GameManager.instance.block2zero_count = 3;
         MenuPannel.SetActive(false);
     }
 
