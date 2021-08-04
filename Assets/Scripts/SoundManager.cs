@@ -13,7 +13,7 @@ public enum SoundType
 
 public class SoundManager : MonoBehaviour
 {
-    AudioSource[] audioSources = new AudioSource[(int)SoundType.END];
+    public AudioSource[] audioSources = new AudioSource[(int)SoundType.END];
     Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
 
     public static SoundManager Instance { get; private set; } = null;
