@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     Text BestScoreText;
     [SerializeField]
+    Text XText;
+    [SerializeField]
     GameObject ClearUI;
     [SerializeField]
     GameObject OptionPannel;
@@ -49,6 +51,11 @@ public class UIManager : MonoBehaviour
             ScoreText.text = "Score : " + GameManager.instance.Score.ToString();
 
             IngameClear();
+        }
+
+        if(SceneManager.GetActiveScene().name=="ModeSelect")
+        {
+            XText.text = DonDestroy.instance.cell_size.x.ToString() + " X " + DonDestroy.instance.cell_size.y.ToString();
         }
     }
 
@@ -152,5 +159,29 @@ public class UIManager : MonoBehaviour
         SoundManager.Instance.Play("UIClick");
         Algorithm.Instance.ReRoll();
         MenuPannel.SetActive(false);
+    }
+
+    public void Left()
+    {
+        if (DonDestroy.instance.cell_size == new Vector2Int(7, 7))
+        {
+            DonDestroy.instance.cell_size = new Vector2Int(5, 5);
+        }
+        else if (DonDestroy.instance.cell_size == new Vector2Int(10, 10))
+        {
+            DonDestroy.instance.cell_size = new Vector2Int(7, 7);
+        }
+    }
+
+    public void Right()
+    {
+        if (DonDestroy.instance.cell_size == new Vector2Int(5, 5))
+        {
+            DonDestroy.instance.cell_size = new Vector2Int(7, 7);
+        }
+        else if (DonDestroy.instance.cell_size == new Vector2Int(7, 7))
+        {
+            DonDestroy.instance.cell_size = new Vector2Int(10, 10);
+        }
     }
 }

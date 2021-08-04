@@ -1650,6 +1650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModeSelect: 0
+  cell_size: {x: 10, y: 10}
 --- !u!4 &1081543953
 Transform:
   m_ObjectHideFlags: 0
