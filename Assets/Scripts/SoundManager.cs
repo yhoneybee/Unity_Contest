@@ -56,7 +56,7 @@ public class SoundManager : MonoBehaviour
         audioClips.Clear();
     }
 
-    public void Play(AudioClip audioClip, SoundType soundType = SoundType.EFFECT, float pitch = 1.0f)
+    public void Play(AudioClip audioClip, SoundType soundType = SoundType.EFFECT)
     {
         if (!audioClip)
             return;
@@ -69,19 +69,17 @@ public class SoundManager : MonoBehaviour
             if (audioSource.isPlaying)
                 audioSource.Stop();
 
-            audioSource.pitch = pitch;
             audioSource.clip = audioClip;
             audioSource.Play();
         }
         else
         {
             audioSource = audioSources[(int)SoundType.EFFECT];
-            audioSource.pitch = pitch;
             audioSource.PlayOneShot(audioClip);
         }
     }
 
-    public void Play(string path, SoundType soundType = SoundType.EFFECT, float pitch = 1.0f) => Play(GetOrAddAudioClip(path, soundType), soundType, pitch);
+    public void Play(string path, SoundType soundType = SoundType.EFFECT) => Play(GetOrAddAudioClip(path, soundType), soundType);
 
     AudioClip GetOrAddAudioClip(string path, SoundType soundType)
     {
