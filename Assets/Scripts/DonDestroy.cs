@@ -6,7 +6,7 @@ public class DonDestroy : MonoBehaviour
 {
     public static DonDestroy instance;
     public int ModeSelect;
-    public Vector2Int cell_size = new Vector2Int(7, 7);
+    public Vector2Int cell_size { get; set; } = new Vector2Int(7, 7);
     void Awake()
     {
         instance = this;

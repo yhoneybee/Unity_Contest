@@ -20,6 +20,7 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
+        Screen.SetResolution(1080, 1920, false);
         if (Instance == null)
         {
             Instance = this;

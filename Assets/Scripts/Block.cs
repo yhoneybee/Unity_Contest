@@ -263,9 +263,12 @@ public class Block : MonoBehaviour
 
             print($"{x},{y}");
 
-            if (Mathf.Abs(LastAPosition.x - gameObject.GetComponent<RectTransform>().anchoredPosition.x) > x
-                || Mathf.Abs(LastAPosition.y - gameObject.GetComponent<RectTransform>().anchoredPosition.y) > y)
+            double dx = Mathf.Abs(LastAPosition.x - gameObject.GetComponent<RectTransform>().anchoredPosition.x);
+            double dy = Mathf.Abs(LastAPosition.y - gameObject.GetComponent<RectTransform>().anchoredPosition.y);
+
+            if (System.Math.Floor(dx) > x || System.Math.Floor(dy) > y)
             {
+                print($"Return ABS Type\nx -> {Mathf.Abs(LastAPosition.x - gameObject.GetComponent<RectTransform>().anchoredPosition.x)}\n{Mathf.Abs(LastAPosition.y - gameObject.GetComponent<RectTransform>().anchoredPosition.y)}");
                 return;
             }
 

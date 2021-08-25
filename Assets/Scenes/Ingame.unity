@@ -2632,7 +2632,7 @@ MonoBehaviour:
   Unblocks: 0
   ReRollCount: 0
   block2zero: 0
-  block2zero_count: 1
+  block2zero_count: 3
 --- !u!4 &1186139252
 Transform:
   m_ObjectHideFlags: 0

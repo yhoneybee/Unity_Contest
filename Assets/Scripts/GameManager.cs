@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public int DragCount { get; set; }
 
     public bool block2zero = false;
+    [HideInInspector]
     public int block2zero_count = 3;
 
     void Awake()
@@ -52,7 +53,7 @@ public class GameManager : MonoBehaviour
 
         Transform plate = GameObject.Find("Plate").transform;
         float val = 10.0f / Algorithm.Instance.cell_size.x * 25.0f;
-        plate.GetComponent<GridLayoutGroup>().cellSize = new Vector2(val, val);
+        plate.GetComponent<GridLayoutGroup>().cellSize = new Vector2((int)val, (int)val);
         plate.GetComponent<GridLayoutGroup>().constraintCount = Algorithm.Instance.cell_size.x;
         Block block_temp = null;
 
