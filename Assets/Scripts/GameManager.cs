@@ -102,9 +102,10 @@ public class GameManager : MonoBehaviour
         int i = 0;
         foreach (var item in Blocks)
         {
-            if (item.GetComponent<Block>().isUnblock == false)
+            Block temp = item.GetComponent<Block>();
+            if (temp.isUnblock == false)
             {
-                if (item.GetComponent<Block>().BlockValue == 0)
+                if (temp.BlockValue == 0 || temp.BlockValue == -1)
                 {
                     i++;
                 }

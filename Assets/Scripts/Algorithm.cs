@@ -263,7 +263,7 @@ public class Algorithm : MonoBehaviour
                     {
                         return o.GetComponent<Block>().myBlockNumber == near.y * cell_size.x + near.x;
                     }
-                    )?.GetComponent<Block>());
+                    ).GetComponent<Block>());
 
             foreach (var near in enter_v2i)
                 if (near.x >= 0 && near.x < cell_size.x && near.y >= 0 && near.y < cell_size.y)
@@ -271,7 +271,7 @@ public class Algorithm : MonoBehaviour
                     {
                         return o.GetComponent<Block>().myBlockNumber == near.y * cell_size.x + near.x;
                     }
-                    )?.GetComponent<Block>());
+                    ).GetComponent<Block>());
 
             var exit_q = from near in exit_near
                          where near.isUnblock || near.BlockValue <= 0
@@ -283,11 +283,11 @@ public class Algorithm : MonoBehaviour
 
             if (enter_q.Count() == enter_near.Count)
             {
-                Block block = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.enter_pos.y * cell_size.y + portal.enter_pos.x); })?.GetComponent<Block>();
+                Block block = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.enter_pos.y * cell_size.y + portal.enter_pos.x); }).GetComponent<Block>();
                 block.isPortal = false;
                 block.BlockValue = 0;
                 portal.enter_pos = new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y));
-                block = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.enter_pos.y * cell_size.y + portal.enter_pos.x); })?.GetComponent<Block>();
+                block = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.enter_pos.y * cell_size.y + portal.enter_pos.x); }).GetComponent<Block>();
                 block.BlockValueTxt.text = "I";
                 block.isPortal = true;
                 block.isEnter = true;
@@ -295,11 +295,11 @@ public class Algorithm : MonoBehaviour
             }
             if (exit_q.Count() == exit_near.Count)
             {
-                Block block = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.exit_pos.y * cell_size.y + portal.exit_pos.x); })?.GetComponent<Block>();
+                Block block = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.exit_pos.y * cell_size.y + portal.exit_pos.x); }).GetComponent<Block>();
                 block.isPortal = false;
                 block.BlockValue = 0;
                 portal.exit_pos = new Vector2Int(Random.Range(0, cell_size.x), Random.Range(0, cell_size.y));
-                block = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.exit_pos.y * cell_size.y + portal.exit_pos.x); })?.GetComponent<Block>();
+                block = GameManager.instance.Blocks.Find((o) => { return o.GetComponent<Block>().myBlockNumber == (portal.exit_pos.y * cell_size.y + portal.exit_pos.x); }).GetComponent<Block>();
                 block.BlockValueTxt.text = "O";
                 block.isPortal = true;
                 block.isEnter = false;
